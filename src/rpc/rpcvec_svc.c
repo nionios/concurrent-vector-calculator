@@ -20,10 +20,10 @@ static void
 vec_program_1(struct svc_req *rqstp, register SVCXPRT *transp)
 {
 	union {
-		vector avg_1_arg;
-		vector min_1_arg;
-		vector max_1_arg;
-		vec_and_num prod_1_arg;
+		vec average_1_arg;
+		vec minimum_1_arg;
+		vec maximum_1_arg;
+		vec_and_num product_1_arg;
 	} argument;
 	char *result;
 	xdrproc_t _xdr_argument, _xdr_result;
@@ -34,28 +34,28 @@ vec_program_1(struct svc_req *rqstp, register SVCXPRT *transp)
 		(void) svc_sendreply (transp, (xdrproc_t) xdr_void, (char *)NULL);
 		return;
 
-	case AVG:
-		_xdr_argument = (xdrproc_t) xdr_vector;
+	case AVERAGE:
+		_xdr_argument = (xdrproc_t) xdr_vec;
 		_xdr_result = (xdrproc_t) xdr_double;
-		local = (char *(*)(char *, struct svc_req *)) avg_1_svc;
+		local = (char *(*)(char *, struct svc_req *)) average_1_svc;
 		break;
 
-	case MIN:
-		_xdr_argument = (xdrproc_t) xdr_vector;
+	case MINIMUM:
+		_xdr_argument = (xdrproc_t) xdr_vec;
 		_xdr_result = (xdrproc_t) xdr_int;
-		local = (char *(*)(char *, struct svc_req *)) min_1_svc;
+		local = (char *(*)(char *, struct svc_req *)) minimum_1_svc;
 		break;
 
-	case MAX:
-		_xdr_argument = (xdrproc_t) xdr_vector;
+	case MAXIMUM:
+		_xdr_argument = (xdrproc_t) xdr_vec;
 		_xdr_result = (xdrproc_t) xdr_int;
-		local = (char *(*)(char *, struct svc_req *)) max_1_svc;
+		local = (char *(*)(char *, struct svc_req *)) maximum_1_svc;
 		break;
 
-	case PROD:
+	case PRODUCT:
 		_xdr_argument = (xdrproc_t) xdr_vec_and_num;
 		_xdr_result = (xdrproc_t) xdr_double;
-		local = (char *(*)(char *, struct svc_req *)) prod_1_svc;
+		local = (char *(*)(char *, struct svc_req *)) product_1_svc;
 		break;
 
 	default:

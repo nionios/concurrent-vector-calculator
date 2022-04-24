@@ -6,7 +6,7 @@
 #include "./rpcvec.h"
 
 bool_t
-xdr_vector (XDR *xdrs, vector *objp)
+xdr_vec (XDR *xdrs, vec *objp)
 {
 	register int32_t *buf;
 

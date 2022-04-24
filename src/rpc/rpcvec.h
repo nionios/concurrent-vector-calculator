@@ -14,10 +14,10 @@ extern "C" {
 #endif
 
 
-struct vector {
+struct vec {
 	double *vector;
 };
-typedef struct vector vector;
+typedef struct vec vec;
 
 struct vec_and_num {
 	double *vector;
@@ -29,44 +29,44 @@ typedef struct vec_and_num vec_and_num;
 #define VEC_VERS 1
 
 #if defined(__STDC__) || defined(__cplusplus)
-#define AVG 1
-extern  double * avg_1(vector *, CLIENT *);
-extern  double * avg_1_svc(vector *, struct svc_req *);
-#define MIN 2
-extern  int * min_1(vector *, CLIENT *);
-extern  int * min_1_svc(vector *, struct svc_req *);
-#define MAX 3
-extern  int * max_1(vector *, CLIENT *);
-extern  int * max_1_svc(vector *, struct svc_req *);
-#define PROD 4
-extern  double * prod_1(vec_and_num *, CLIENT *);
-extern  double * prod_1_svc(vec_and_num *, struct svc_req *);
+#define AVERAGE 1
+extern  double * average_1(vec *, CLIENT *);
+extern  double * average_1_svc(vec *, struct svc_req *);
+#define MINIMUM 2
+extern  int * minimum_1(vec *, CLIENT *);
+extern  int * minimum_1_svc(vec *, struct svc_req *);
+#define MAXIMUM 3
+extern  int * maximum_1(vec *, CLIENT *);
+extern  int * maximum_1_svc(vec *, struct svc_req *);
+#define PRODUCT 4
+extern  double * product_1(vec_and_num *, CLIENT *);
+extern  double * product_1_svc(vec_and_num *, struct svc_req *);
 extern int vec_program_1_freeresult (SVCXPRT *, xdrproc_t, caddr_t);
 
 #else /* K&R C */
-#define AVG 1
-extern  double * avg_1();
-extern  double * avg_1_svc();
-#define MIN 2
-extern  int * min_1();
-extern  int * min_1_svc();
-#define MAX 3
-extern  int * max_1();
-extern  int * max_1_svc();
-#define PROD 4
-extern  double * prod_1();
-extern  double * prod_1_svc();
+#define AVERAGE 1
+extern  double * average_1();
+extern  double * average_1_svc();
+#define MINIMUM 2
+extern  int * minimum_1();
+extern  int * minimum_1_svc();
+#define MAXIMUM 3
+extern  int * maximum_1();
+extern  int * maximum_1_svc();
+#define PRODUCT 4
+extern  double * product_1();
+extern  double * product_1_svc();
 extern int vec_program_1_freeresult ();
 #endif /* K&R C */
 
 /* the xdr functions */
 
 #if defined(__STDC__) || defined(__cplusplus)
-extern  bool_t xdr_vector (XDR *, vector*);
+extern  bool_t xdr_vec (XDR *, vec*);
 extern  bool_t xdr_vec_and_num (XDR *, vec_and_num*);
 
 #else /* K&R C */
-extern bool_t xdr_vector ();
+extern bool_t xdr_vec ();
 extern bool_t xdr_vec_and_num ();
 
 #endif /* K&R C */

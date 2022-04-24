@@ -10,13 +10,13 @@
 static struct timeval TIMEOUT = { 25, 0 };
 
 double *
-avg_1(vector *argp, CLIENT *clnt)
+average_1(vec *argp, CLIENT *clnt)
 {
 	static double clnt_res;
 
 	memset((char *)&clnt_res, 0, sizeof(clnt_res));
-	if (clnt_call (clnt, AVG,
-		(xdrproc_t) xdr_vector, (caddr_t) argp,
+	if (clnt_call (clnt, AVERAGE,
+		(xdrproc_t) xdr_vec, (caddr_t) argp,
 		(xdrproc_t) xdr_double, (caddr_t) &clnt_res,
 		TIMEOUT) != RPC_SUCCESS) {
 		return (NULL);
@@ -25,13 +25,13 @@ avg_1(vector *argp, CLIENT *clnt)
 }
 
 int *
-min_1(vector *argp, CLIENT *clnt)
+minimum_1(vec *argp, CLIENT *clnt)
 {
 	static int clnt_res;
 
 	memset((char *)&clnt_res, 0, sizeof(clnt_res));
-	if (clnt_call (clnt, MIN,
-		(xdrproc_t) xdr_vector, (caddr_t) argp,
+	if (clnt_call (clnt, MINIMUM,
+		(xdrproc_t) xdr_vec, (caddr_t) argp,
 		(xdrproc_t) xdr_int, (caddr_t) &clnt_res,
 		TIMEOUT) != RPC_SUCCESS) {
 		return (NULL);
@@ -40,13 +40,13 @@ min_1(vector *argp, CLIENT *clnt)
 }
 
 int *
-max_1(vector *argp, CLIENT *clnt)
+maximum_1(vec *argp, CLIENT *clnt)
 {
 	static int clnt_res;
 
 	memset((char *)&clnt_res, 0, sizeof(clnt_res));
-	if (clnt_call (clnt, MAX,
-		(xdrproc_t) xdr_vector, (caddr_t) argp,
+	if (clnt_call (clnt, MAXIMUM,
+		(xdrproc_t) xdr_vec, (caddr_t) argp,
 		(xdrproc_t) xdr_int, (caddr_t) &clnt_res,
 		TIMEOUT) != RPC_SUCCESS) {
 		return (NULL);
@@ -55,12 +55,12 @@ max_1(vector *argp, CLIENT *clnt)
 }
 
 double *
-prod_1(vec_and_num *argp, CLIENT *clnt)
+product_1(vec_and_num *argp, CLIENT *clnt)
 {
 	static double clnt_res;
 
 	memset((char *)&clnt_res, 0, sizeof(clnt_res));
-	if (clnt_call (clnt, PROD,
+	if (clnt_call (clnt, PRODUCT,
 		(xdrproc_t) xdr_vec_and_num, (caddr_t) argp,
 		(xdrproc_t) xdr_double, (caddr_t) &clnt_res,
 		TIMEOUT) != RPC_SUCCESS) {
