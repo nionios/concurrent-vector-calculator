@@ -1,5 +1,8 @@
-/*
-* vec_calc.x file for the vector program. Outlines the basics.
+/* Author: Dionisis Nikolopoulos
+*  Description: rpcvec.x protocol file for the vector program.
+*  Outlines the basics.
+*  License: GPLv3
+*  Date Written: April 2022
 */
 struct vector {
     double * vector;
