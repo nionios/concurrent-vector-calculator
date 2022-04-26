@@ -9,12 +9,14 @@
 void average_prompt(vec vector, CLIENT *clnt) {
     fprintf(stdout,
             "\nYou chose to calculate the average of the vector.");
-    double *result = average_1(&vector,clnt);
+    //FIXME: Segfault right here..
+     double *result = average_1(&vector,clnt);
 }
 
 void minmax_prompt(vec vector, CLIENT *clnt) {
     fprintf(stdout,
             "\nYou chose to calculate the minimum and maximum of the vector.");
+    double *result = minmax_1(&vector,clnt);
 }
 
 void product_prompt(vec vector, CLIENT *clnt) {
@@ -27,6 +29,7 @@ void product_prompt(vec vector, CLIENT *clnt) {
     vec_and_num pair;
     pair.number = number;
     pair.vector = vector;
+    vec *result = product_1(&pair,clnt);
 }
 
 void client_side(CLIENT *clnt){
