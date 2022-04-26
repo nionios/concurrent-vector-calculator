@@ -24,45 +24,30 @@ average_1(vec *argp, CLIENT *clnt)
 	return (&clnt_res);
 }
 
-int *
-minimum_1(vec *argp, CLIENT *clnt)
-{
-	static int clnt_res;
-
-	memset((char *)&clnt_res, 0, sizeof(clnt_res));
-	if (clnt_call (clnt, MINIMUM,
-		(xdrproc_t) xdr_vec, (caddr_t) argp,
-		(xdrproc_t) xdr_int, (caddr_t) &clnt_res,
-		TIMEOUT) != RPC_SUCCESS) {
-		return (NULL);
-	}
-	return (&clnt_res);
-}
-
-int *
-maximum_1(vec *argp, CLIENT *clnt)
-{
-	static int clnt_res;
-
-	memset((char *)&clnt_res, 0, sizeof(clnt_res));
-	if (clnt_call (clnt, MAXIMUM,
-		(xdrproc_t) xdr_vec, (caddr_t) argp,
-		(xdrproc_t) xdr_int, (caddr_t) &clnt_res,
-		TIMEOUT) != RPC_SUCCESS) {
-		return (NULL);
-	}
-	return (&clnt_res);
-}
-
 double *
-product_1(vec_and_num *argp, CLIENT *clnt)
+minmax_1(vec *argp, CLIENT *clnt)
 {
 	static double clnt_res;
 
 	memset((char *)&clnt_res, 0, sizeof(clnt_res));
+	if (clnt_call (clnt, MINMAX,
+		(xdrproc_t) xdr_vec, (caddr_t) argp,
+		(xdrproc_t) xdr_double, (caddr_t) &clnt_res,
+		TIMEOUT) != RPC_SUCCESS) {
+		return (NULL);
+	}
+	return (&clnt_res);
+}
+
+vec *
+product_1(vec_and_num *argp, CLIENT *clnt)
+{
+	static vec clnt_res;
+
+	memset((char *)&clnt_res, 0, sizeof(clnt_res));
 	if (clnt_call (clnt, PRODUCT,
 		(xdrproc_t) xdr_vec_and_num, (caddr_t) argp,
-		(xdrproc_t) xdr_double, (caddr_t) &clnt_res,
+		(xdrproc_t) xdr_vec, (caddr_t) &clnt_res,
 		TIMEOUT) != RPC_SUCCESS) {
 		return (NULL);
 	}

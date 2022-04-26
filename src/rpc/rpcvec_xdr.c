@@ -12,7 +12,7 @@ xdr_vec (XDR *xdrs, vec *objp)
 
 	 if (!xdr_pointer (xdrs, (char **)&objp->vector_array, sizeof (double), (xdrproc_t) xdr_double))
 		 return FALSE;
-	 if (!xdr_int (xdrs, &objp->vector_size))
+	 if (!xdr_u_int (xdrs, &objp->vector_size))
 		 return FALSE;
 	return TRUE;
 }
@@ -22,7 +22,7 @@ xdr_vec_and_num (XDR *xdrs, vec_and_num *objp)
 {
 	register int32_t *buf;
 
-	 if (!xdr_pointer (xdrs, (char **)&objp->vector, sizeof (double), (xdrproc_t) xdr_double))
+	 if (!xdr_vec (xdrs, &objp->vector))
 		 return FALSE;
 	 if (!xdr_double (xdrs, &objp->number))
 		 return FALSE;

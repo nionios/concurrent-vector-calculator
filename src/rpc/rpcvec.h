@@ -16,12 +16,12 @@ extern "C" {
 
 struct vec {
 	double *vector_array;
-	int vector_size;
+	u_int vector_size;
 };
 typedef struct vec vec;
 
 struct vec_and_num {
-	double *vector;
+	vec vector;
 	double number;
 };
 typedef struct vec_and_num vec_and_num;
@@ -30,33 +30,27 @@ typedef struct vec_and_num vec_and_num;
 #define VEC_VERS 1
 
 #if defined(__STDC__) || defined(__cplusplus)
-#define AVERAGE 1
+#define AVERAGE 2
 extern  double * average_1(vec *, CLIENT *);
 extern  double * average_1_svc(vec *, struct svc_req *);
-#define MINIMUM 2
-extern  int * minimum_1(vec *, CLIENT *);
-extern  int * minimum_1_svc(vec *, struct svc_req *);
-#define MAXIMUM 3
-extern  int * maximum_1(vec *, CLIENT *);
-extern  int * maximum_1_svc(vec *, struct svc_req *);
-#define PRODUCT 4
-extern  double * product_1(vec_and_num *, CLIENT *);
-extern  double * product_1_svc(vec_and_num *, struct svc_req *);
+#define MINMAX 1
+extern  double * minmax_1(vec *, CLIENT *);
+extern  double * minmax_1_svc(vec *, struct svc_req *);
+#define PRODUCT 3
+extern  vec * product_1(vec_and_num *, CLIENT *);
+extern  vec * product_1_svc(vec_and_num *, struct svc_req *);
 extern int vec_program_1_freeresult (SVCXPRT *, xdrproc_t, caddr_t);
 
 #else /* K&R C */
-#define AVERAGE 1
+#define AVERAGE 2
 extern  double * average_1();
 extern  double * average_1_svc();
-#define MINIMUM 2
-extern  int * minimum_1();
-extern  int * minimum_1_svc();
-#define MAXIMUM 3
-extern  int * maximum_1();
-extern  int * maximum_1_svc();
-#define PRODUCT 4
-extern  double * product_1();
-extern  double * product_1_svc();
+#define MINMAX 1
+extern  double * minmax_1();
+extern  double * minmax_1_svc();
+#define PRODUCT 3
+extern  vec * product_1();
+extern  vec * product_1_svc();
 extern int vec_program_1_freeresult ();
 #endif /* K&R C */
 
