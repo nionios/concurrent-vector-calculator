@@ -6,20 +6,27 @@
 #include <stdio.h>
 #include "../rpc/rpcvec.h"
 
-main(int argc,char **argv)
+int hello_server(int argc,char **argv)
 {
-int num;
-if (argc != 2) {
-    fprintf(stderr, "usage: %s hostname\n",
-            argv[0]);
-    exit(1);
+  fprintf(stdout, "Hello World from server");
 }
 
-if ((num = rnusers(argv[1])) < 0) {
-    fprintf(stderr, "error: rusers\n");
-    exit(1);
+int * minimum_1_svc(vec * input_vector,struct svc_req *req)
+{
+  printf("helloworld");
 }
 
-fprintf(stderr, "%d users on %s\n", num, argv[1] );
-exit(0);
+int * maximum_1_svc(vec * input_vector,struct svc_req *req)
+{
+  printf("helloworld");
+}
+
+double * average_1_svc(vec * input_vector,struct svc_req *req)
+{
+  printf("helloworld");
+}
+
+double * product_1_svc(vec_and_num * input_vector_pair,struct svc_req *req)
+{
+  printf("helloworld");
 }
