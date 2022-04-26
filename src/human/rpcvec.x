@@ -5,7 +5,8 @@
 *  Date Written: April 2022
 */
 struct vec {
-    double * vector;
+    double * vector_array;
+    int vector_size;
 };
 
 struct vec_and_num {

@@ -15,7 +15,8 @@ extern "C" {
 
 
 struct vec {
-	double *vector;
+	double *vector_array;
+	int vector_size;
 };
 typedef struct vec vec;
 

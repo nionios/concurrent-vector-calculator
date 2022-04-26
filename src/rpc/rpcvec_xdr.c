@@ -10,7 +10,9 @@ xdr_vec (XDR *xdrs, vec *objp)
 {
 	register int32_t *buf;
 
-	 if (!xdr_pointer (xdrs, (char **)&objp->vector, sizeof (double), (xdrproc_t) xdr_double))
+	 if (!xdr_pointer (xdrs, (char **)&objp->vector_array, sizeof (double), (xdrproc_t) xdr_double))
+		 return FALSE;
+	 if (!xdr_int (xdrs, &objp->vector_size))
 		 return FALSE;
 	return TRUE;
 }
