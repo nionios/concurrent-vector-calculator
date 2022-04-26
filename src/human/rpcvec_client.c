@@ -9,6 +9,7 @@
 void average_prompt(vec vector, CLIENT *clnt) {
     fprintf(stdout,
             "\nYou chose to calculate the average of the vector.");
+    double *result = average_1(&vector,clnt);
 }
 
 void minmax_prompt(vec vector, CLIENT *clnt) {
