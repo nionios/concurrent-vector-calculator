@@ -14,7 +14,7 @@ double * minmax_1_svc(vec * input_vector,struct svc_req *req)
     min = max = input_vector->vector_array[0];
     //..so we start at 1 (second element)
     double current;
-    for (int i=1; i<=input_vector->vector_size; i++)
+    for (int i=1; i<input_vector->vector_size; i++)
     {
         current = input_vector->vector_array[i];
         if (current > max) max = current;
