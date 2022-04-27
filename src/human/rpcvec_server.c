@@ -6,6 +6,17 @@
 #include <stdio.h>
 #include "../rpc/rpcvec.h"
 
+double * average_1_svc(vec * input_vector,struct svc_req *req)
+{
+    static double average;
+    double sum = 0;
+    for (int i=0; i<=input_vector->vector_size; i++)
+        sum += input_vector->vector_array[i];
+    average = sum / input_vector->vector_size;
+    fprintf(stdout,"\nAverage is %lf\n",average);
+    return &average;
+}
+
 double * minmax_1_svc(vec * input_vector,struct svc_req *req)
 {
     static double minmax_array[2];
@@ -16,9 +27,11 @@ double * minmax_1_svc(vec * input_vector,struct svc_req *req)
     double current;
     for (int i=1; i<input_vector->vector_size; i++)
     {
+        printf("\nCurrent is %lf\n",input_vector->vector_array[i]);
         current = input_vector->vector_array[i];
+        printf("\nChecking vector_array[%d] == %lf\n",i,current);
         if (current > max) max = current;
-        if (current < min) min = current;
+        else if (current < min) min = current;
     }
     // Min is first element, max in second
     minmax_array[0] = min;
@@ -26,17 +39,6 @@ double * minmax_1_svc(vec * input_vector,struct svc_req *req)
     fprintf(stdout,"\nMax is %lf\n",max);
     fprintf(stdout,"\nMin is %lf\n",min);
     return minmax_array;
-}
-
-double * average_1_svc(vec * input_vector,struct svc_req *req)
-{
-    static double average;
-    double sum = 0;
-    for (int i=0; i<=input_vector->vector_size; i++)
-        sum += input_vector->vector_array[i];
-    average = sum / input_vector->vector_size;
-    fprintf(stdout,"\nAverage is %lf\n",average);
-    return &average;
 }
 
 vec * product_1_svc(vec_and_num * input_vector_pair,struct svc_req *req)

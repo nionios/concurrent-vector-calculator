@@ -8,9 +8,9 @@
 
 void average_prompt(vec vector, CLIENT *clnt) {
     fprintf(stdout,
-            "\nYou chose to calculate the average of the vector.");
-    //FIXME: Segfault right here..
-     double *result = average_1(&vector,clnt);
+           "\nYou chose to calculate the average of the vector.");
+    double *result = average_1(&vector,clnt);
+    fprintf(stdout,"\n * Average of vector is: %lf",*result);
 }
 
 void minmax_prompt(vec vector, CLIENT *clnt) {
@@ -39,11 +39,11 @@ void client_side(CLIENT *clnt){
     fprintf(stdout,"\nPlease provide number of elements for vector: ");
     scanf("%d",&input_size);
     vec vector;
-    vector.vector_array=malloc(sizeof(double) * input_size);
+    vector.vector_array=(*double)malloc(sizeof(double) * input_size);
     vector.vector_size = input_size;
     for (int i=0; i<vector.vector_size; i++) {
         fprintf(stdout,"\nPlease provide element number %d of vector: ",i);
-        scanf("%d",&vector.vector_array[i]);
+        scanf("%lf",&vector.vector_array[i]);
     }
     while (1) {
         fprintf(stdout,"\nPlease choose calculation to make or exit:"\
