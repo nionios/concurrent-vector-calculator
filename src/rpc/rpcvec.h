@@ -30,10 +30,10 @@ typedef struct vec_and_num vec_and_num;
 #define VEC_VERS 1
 
 #if defined(__STDC__) || defined(__cplusplus)
-#define AVERAGE 2
+#define AVERAGE 1
 extern  double * average_1(vec *, CLIENT *);
 extern  double * average_1_svc(vec *, struct svc_req *);
-#define MINMAX 1
+#define MINMAX 2
 extern  double * minmax_1(vec *, CLIENT *);
 extern  double * minmax_1_svc(vec *, struct svc_req *);
 #define PRODUCT 3
@@ -42,10 +42,10 @@ extern  vec * product_1_svc(vec_and_num *, struct svc_req *);
 extern int vec_program_1_freeresult (SVCXPRT *, xdrproc_t, caddr_t);
 
 #else /* K&R C */
-#define AVERAGE 2
+#define AVERAGE 1
 extern  double * average_1();
 extern  double * average_1_svc();
-#define MINMAX 1
+#define MINMAX 2
 extern  double * minmax_1();
 extern  double * minmax_1_svc();
 #define PRODUCT 3

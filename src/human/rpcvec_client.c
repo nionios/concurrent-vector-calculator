@@ -6,20 +6,25 @@
 #include <stdio.h>
 #include "../rpc/rpcvec.h"
 
-void average_prompt(vec vector, CLIENT *clnt) {
+void average_prompt(vec * vector, CLIENT *clnt) {
     fprintf(stdout,
-           "\nYou chose to calculate the average of the vector.");
-    double *result = average_1(&vector,clnt);
+           "\nYou chose to calculate the average of the vector."\
+            "\n* Sending info to server...");
+    double *result = average_1(vector,clnt);
     fprintf(stdout,"\n * Average of vector is: %lf",*result);
 }
 
-void minmax_prompt(vec vector, CLIENT *clnt) {
+void minmax_prompt(vec * vector, CLIENT *clnt) {
     fprintf(stdout,
-            "\nYou chose to calculate the minimum and maximum of the vector.");
-    double *result = minmax_1(&vector,clnt);
+            "\nYou chose to calculate the minimum and maximum of the vector."\
+            "\n* Sending info to server...");
+    double *result = minmax_1(vector,clnt);
+    fprintf(stdout,"\n==> The minimum of the vector is: %lf"\
+                   "\n==> The maximum of the vector is: %lf",
+                   result[0], result[1]);
 }
 
-void product_prompt(vec vector, CLIENT *clnt) {
+void product_prompt(vec * vector, CLIENT *clnt) {
     double number;
     fprintf(stdout,
             "\nYou chose to calculate the product of the vector with a number"
@@ -28,8 +33,12 @@ void product_prompt(vec vector, CLIENT *clnt) {
     scanf("%lf",&number);
     vec_and_num pair;
     pair.number = number;
-    pair.vector = vector;
+    pair.vector = *vector;
+    fprintf(stdout,"\n* Sending info to server...");
     vec *result = product_1(&pair,clnt);
+    fprintf(stdout,"\n==> The product vector is:");
+    for (int i=0; i<pair.vector.vector_size; i++)
+        fprintf(stdout,"\n product[%d] = %lf",i,result->vector_array[i]);
 }
 
 void client_side(CLIENT *clnt){
@@ -39,11 +48,12 @@ void client_side(CLIENT *clnt){
     fprintf(stdout,"\nPlease provide number of elements for vector: ");
     scanf("%d",&input_size);
     vec vector;
-    vector.vector_array=(*double)malloc(sizeof(double) * input_size);
+    vector.vector_array=malloc(sizeof(double) * input_size);
     vector.vector_size = input_size;
     for (int i=0; i<vector.vector_size; i++) {
         fprintf(stdout,"\nPlease provide element number %d of vector: ",i);
         scanf("%lf",&vector.vector_array[i]);
+        printf("\nvector.vector_array[%d] == %lf",i,vector.vector_array[i]);
     }
     while (1) {
         fprintf(stdout,"\nPlease choose calculation to make or exit:"\
@@ -57,13 +67,13 @@ void client_side(CLIENT *clnt){
             case 0:
                 return;
             case 1:
-                average_prompt(vector,clnt);
+                average_prompt(&vector,clnt);
                 break;
             case 2:
-                minmax_prompt(vector,clnt);
+                minmax_prompt(&vector,clnt);
                 break;
             case 3:
-                product_prompt(vector,clnt);
+                product_prompt(&vector,clnt);
                 break;
             default:
                 fprintf(stdout,

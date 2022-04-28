@@ -17,9 +17,9 @@ struct vec_and_num {
 program VEC_PROGRAM {
     version VEC_VERS {
         /*Average of the Vector*/
-        double AVERAGE(vec) = 2;
+        double AVERAGE(vec) = 1;
         /*Min and Max of Vector*/
-        double MINMAX(vec) = 1;
+        double MINMAX(vec) = 2;
         /*Product of Vector with a number*/
         vec PRODUCT(vec_and_num) = 3;
     } = 1;
