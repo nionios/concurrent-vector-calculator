@@ -14,11 +14,10 @@ extern "C" {
 #endif
 
 
-struct vec {
-	double *vector_array;
-	u_int vector_size;
-};
-typedef struct vec vec;
+typedef struct {
+	u_int vec_len;
+	char *vec_val;
+} vec;
 
 struct vec_and_num {
 	vec vector;

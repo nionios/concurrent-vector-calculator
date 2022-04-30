@@ -4,42 +4,8 @@
 *  Date Written: April 2022
 */
 #include <stdio.h>
+#include "prompts.h"
 #include "../rpc/rpcvec.h"
-
-void average_prompt(vec * vector, CLIENT *clnt) {
-    fprintf(stdout,
-           "\nYou chose to calculate the average of the vector."\
-            "\n* Sending info to server...");
-    double *result = average_1(vector,clnt);
-    fprintf(stdout,"\n * Average of vector is: %lf",*result);
-}
-
-void minmax_prompt(vec * vector, CLIENT *clnt) {
-    fprintf(stdout,
-            "\nYou chose to calculate the minimum and maximum of the vector."\
-            "\n* Sending info to server...");
-    double *result = minmax_1(vector,clnt);
-    fprintf(stdout,"\n==> The minimum of the vector is: %lf"\
-                   "\n==> The maximum of the vector is: %lf",
-                   result[0], result[1]);
-}
-
-void product_prompt(vec * vector, CLIENT *clnt) {
-    double number;
-    fprintf(stdout,
-            "\nYou chose to calculate the product of the vector with a number"
-            "\n Please input the number you wish to multiply the vector with: "
-            );
-    scanf("%lf",&number);
-    vec_and_num pair;
-    pair.number = number;
-    pair.vector = *vector;
-    fprintf(stdout,"\n* Sending info to server...");
-    vec *result = product_1(&pair,clnt);
-    fprintf(stdout,"\n==> The product vector is:");
-    for (int i=0; i<pair.vector.vector_size; i++)
-        fprintf(stdout,"\n product[%d] = %lf",i,result->vector_array[i]);
-}
 
 void client_side(CLIENT *clnt){
     unsigned int input_size, choice;
@@ -63,6 +29,8 @@ void client_side(CLIENT *clnt){
                 "\n 3. Product of vector with a real number"\
                 "\nChoice: ");
         scanf("%d",&choice);
+        // Separate functions for prompting user for more info, depending on
+        // choice.
         switch (choice) {
             case 0:
                 return;
@@ -86,7 +54,7 @@ int main(int argc,char **argv) {
     char * host;
     if (argc < 2) {
         printf ("usage: %s server_host\n", argv[0]);
-        exit (1);
+        exit(1);
     }
     host = argv[1];
     CLIENT *clnt = clnt_create(host, VEC_PROGRAM, VEC_VERS, "udp");

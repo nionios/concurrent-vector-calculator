@@ -4,8 +4,9 @@
 *  License: GPLv3
 *  Date Written: April 2022
 */
+
 struct vec {
-    double * vector_array;
+    double *vector_array;
     unsigned int vector_size;
 };
 

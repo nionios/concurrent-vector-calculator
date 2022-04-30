@@ -20,7 +20,7 @@ average_1_svc(vec * input_vector,struct svc_req *req)
         fprintf(stdout,"\n* Iteration: %d:"\
                 "\n=> input_vector_array[%d] == %lf\n"\
                 "\n=> Sum == %lf"
-                ,i,sum,i,input_vector->vector_array[i]);
+                ,i,i,input_vector->vector_array[i],sum);
     }
     average = sum / input_vector->vector_size;
     fprintf(stdout,"\n==> Average is %lf"\
