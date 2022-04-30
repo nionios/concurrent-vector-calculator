@@ -3,12 +3,13 @@
 *  Outlines the basics.
 *  License: GPLv3
 *  Date Written: April 2022
-*/
 
 struct vec {
     double *vector_array;
     unsigned int vector_size;
 };
+*/
+typedef double vec<255>;
 
 struct vec_and_num {
     vec vector;

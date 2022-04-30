@@ -14,12 +14,12 @@ void client_side(CLIENT *clnt){
     fprintf(stdout,"\nPlease provide number of elements for vector: ");
     scanf("%d",&input_size);
     vec vector;
-    vector.vector_array=malloc(sizeof(double) * input_size);
-    vector.vector_size = input_size;
-    for (int i=0; i<vector.vector_size; i++) {
+    vector.vec_val=malloc(sizeof(double) * input_size);
+    vector.vec_len = input_size;
+    for (int i=0; i<vector.vec_len; i++) {
         fprintf(stdout,"\nPlease provide element number %d of vector: ",i);
-        scanf("%lf",&vector.vector_array[i]);
-        printf("\nvector.vector_array[%d] == %lf",i,vector.vector_array[i]);
+        scanf("%lf",&vector.vec_val[i]);
+        printf("\nvector.vec_val[%d] == %lf",i,vector.vec_val[i]);
     }
     while (1) {
         fprintf(stdout,"\nPlease choose calculation to make or exit:"\

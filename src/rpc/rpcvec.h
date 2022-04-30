@@ -16,7 +16,7 @@ extern "C" {
 
 typedef struct {
 	u_int vec_len;
-	char *vec_val;
+	double *vec_val;
 } vec;
 
 struct vec_and_num {

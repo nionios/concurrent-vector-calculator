@@ -15,14 +15,14 @@ average_1_svc(vec * input_vector,struct svc_req *req)
     fprintf(stdout,"\n** Call for function average_1_svc with rq_proc %d",req->rq_proc);
     static double average;
     double sum = 0;
-    for (int i=0; i<input_vector->vector_size; i++) {
-        sum += input_vector->vector_array[i];
+    for (int i=0; i<input_vector->vec_len; i++) {
+        sum += input_vector->vec_val[i];
         fprintf(stdout,"\n* Iteration: %d:"\
-                "\n=> input_vector_array[%d] == %lf\n"\
+                "\n=> input_vec_val[%d] == %lf\n"\
                 "\n=> Sum == %lf"
-                ,i,i,input_vector->vector_array[i],sum);
+                ,i,i,input_vector->vec_val[i],sum);
     }
-    average = sum / input_vector->vector_size;
+    average = sum / input_vector->vec_len;
     fprintf(stdout,"\n==> Average is %lf"\
             "\n** Return results...",average);
     return &average;
@@ -35,15 +35,15 @@ minmax_1_svc(vec * input_vector,struct svc_req *req)
     static double minmax_array[2];
     double min,max;
     // min and max are assigned as the first element of array initially..
-    min = input_vector->vector_array[0];
-    max = input_vector->vector_array[0];
+    min = input_vector->vec_val[0];
+    max = input_vector->vec_val[0];
     //..so we start at 1 (second element)
     double current;
-    for (int i=1; i<input_vector->vector_size; i++)
+    for (int i=1; i<input_vector->vec_len; i++)
     {
-        current = input_vector->vector_array[i];
+        current = input_vector->vec_val[i];
         printf("\nCurrent is %lf\n",current);
-        printf("\nChecking vector_array[%d] == %lf\n",i,current);
+        printf("\nChecking vec_val[%d] == %lf\n",i,current);
         if (current > max) max = current;
         else if (current < min) min = current;
     }
@@ -62,10 +62,10 @@ product_1_svc(vec_and_num * input_vector_pair,struct svc_req *req)
 {
     fprintf(stdout,"\n** Call for function product_1_svc with rq_proc %d",req->rq_proc);
     static vec product;
-    product.vector_size = input_vector_pair->vector.vector_size;
-    product.vector_array = malloc(sizeof(double) * product.vector_size);
-    for (int i=0; i<=input_vector_pair->vector.vector_size; i++)
-        product.vector_array[i] = input_vector_pair->vector.vector_array[i]
+    product.vec_len = input_vector_pair->vector.vec_len;
+    product.vec_val = malloc(sizeof(double) * product.vec_len);
+    for (int i=0; i<=input_vector_pair->vector.vec_len; i++)
+        product.vec_val[i] = input_vector_pair->vector.vec_val[i]
                                 * input_vector_pair->number;
     return &product;
 }

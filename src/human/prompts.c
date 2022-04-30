@@ -13,8 +13,8 @@ bool_t
 make_xdr_vec(vec * vector, XDR *xdrsp)
 {
     return(xdr_array(xdrsp,
-                     (caddr_t *)&vector->vector_array,
-                     (u_int *)&vector->vector_size,
+                     (caddr_t *)&vector->vec_val,
+                     (u_int *)&vector->vec_len,
                      MAXLEN,
                      sizeof(double),
                      (xdrproc_t)xdr_double));
@@ -70,7 +70,7 @@ product_prompt(vec * vector, CLIENT *clnt)
         exit(1);
     }
     fprintf(stdout,"\n==> The product vector is:");
-    for (int i=0; i<pair.vector.vector_size; i++)
-        fprintf(stdout,"\n product[%d] = %lf",i,result->vector_array[i]);
+    for (int i=0; i<pair.vector.vec_len; i++)
+        fprintf(stdout,"\n product[%d] = %lf",i,result->vec_val[i]);
 }
 
