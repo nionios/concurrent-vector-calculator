@@ -4,22 +4,6 @@
 */
 #include <stdio.h>
 #include "../rpc/rpcvec.h"
-#include <rpc/xdr.h>
-#include "../rpc/rpcvec.h"
-
-/*
-#define MAXLEN 255
-bool_t
-make_xdr_vec(vec * vector, XDR *xdrsp)
-{
-    return(xdr_array(xdrsp,
-                     (caddr_t *)&vector->vec_val,
-                     (u_int *)&vector->vec_len,
-                     MAXLEN,
-                     sizeof(double),
-                     (xdrproc_t)xdr_double));
-}
-*/
 
 void
 average_prompt(vec * vector, CLIENT *clnt)
@@ -32,7 +16,7 @@ average_prompt(vec * vector, CLIENT *clnt)
         clnt_perror(clnt,"Call for average_1 function failed!");
         exit(1);
     }
-    fprintf(stdout,"\n * Average of vector is: %lf",*result);
+    fprintf(stdout,"\n==> Average of vector is: %lf",*result);
 }
 
 void

@@ -7,18 +7,55 @@
 #include "prompts.h"
 #include "../rpc/rpcvec.h"
 
-void client_side(CLIENT *clnt){
-    unsigned int input_size, choice;
+//FIXME: make the sanitary_* functions work, they spit out NULL all the time
+void sanitary_int(int * intp) {
+    char line[256];
+    int scanned;
+    if (fgets(line, sizeof(line), stdin)) {
+        if (1 == sscanf(line, "%d", &scanned))
+            intp = &scanned;
+        else intp = NULL;
+    }
+}
 
+void sanitary_double(double * dblp) {
+    char line[256];
+    double scanned;
+    if (fgets(line, sizeof(line), stdin)) {
+        if (1 == sscanf(line, "%lf", &scanned))
+            dblp = &scanned;
+        else dblp = NULL;
+    }
+}
+
+void client_side(CLIENT *clnt){
+    unsigned int choice;
+    int * input_size;
+    int flag=1;
+    while(flag){
+        fprintf(stdout,"\nPlease provide number of elements for vector: ");
+        sanitary_int(input_size);
+        if (input_size == NULL) {
+            fprintf(stdout,"\nError, invalid input type:"\
+                    "Please input an integer value from 1 to 255");
+        } else if (*input_size >= 1 && *input_size <= 255) {
+            fprintf(stdout,"\nError, invalid input integer:"\
+                    "Please input an integer value from 1 to 255");
+        }
+    }
     fprintf(stdout,"*** Concurrent Vector Calculator ***");
-    fprintf(stdout,"\nPlease provide number of elements for vector: ");
-    scanf("%d",&input_size);
     vec vector;
-    vector.vec_val=malloc(sizeof(double) * input_size);
-    vector.vec_len = input_size;
+    vector.vec_val = malloc(sizeof(double) * (*input_size));
+    vector.vec_len = *input_size;
     for (int i=0; i<vector.vec_len; i++) {
         fprintf(stdout,"\nPlease provide element number %d of vector: ",i);
-        scanf("%lf",&vector.vec_val[i]);
+        sanitary_double(&vector.vec_val[i]);
+        if (&vector.vec_val[i] == NULL) {
+            fprintf(stdout,"Error, invalid input type:"\
+                    "Please input a valid double value");
+            //Go back a step if the input is wrong
+            i--;
+        }
         printf("\nvector.vec_val[%d] == %lf",i,vector.vec_val[i]);
     }
     while (1) {
@@ -53,7 +90,7 @@ void client_side(CLIENT *clnt){
 int main(int argc,char **argv) {
     char * host;
     if (argc < 2) {
-        printf ("usage: %s server_host\n", argv[0]);
+        printf ("rpcvec_client - usage: %s server_host\n", argv[0]);
         exit(1);
     }
     host = argv[1];
