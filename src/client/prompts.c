@@ -1,5 +1,6 @@
 /* Description: Prompts for the client side (part of tui)
 *  License: GPLv3
+ * Author: Dionisis Nikolopoulos
 *  Date Written: April 2022
 */
 #include <stdio.h>

@@ -4,17 +4,10 @@
 *  Date Written: April 2022
 */
 #include <stdio.h>
-#include <stdlib.h>
 #include "../rpc/rpcvec.h"
-#include "prompts.h"
-#include "sanitary.h"
-
-void checkalloc(void * ptr) {
-    if (ptr == NULL) {
-        fprintf(stderr, "\nError: Failed to allocate memory!\n");
-        abort();
-    }
-}
+#include <prompts.h>
+#include <sanitary.h>
+#include <checkalloc.h>
 
 void
 client_side(CLIENT *clnt) {
@@ -46,10 +39,6 @@ client_side(CLIENT *clnt) {
         fprintf(stdout,"\nPlease provide element number %d of vector: ",i);
         sanitary_double(&valp);
         // If input is not valid, sanitary_double returns a null pointer
-        //DEBUG:
-        printf("\nvalp == %p",valp);
-        printf("\nvector.vec_val[%d] == %lf",i,vector.vec_val[i]);
-        //DEBUG END
         if (!valp) {
             fprintf(stderr,"\nError, invalid input type:"\
                     "Please input a valid double value");

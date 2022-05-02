@@ -4,6 +4,7 @@
 *  Date Written: April 2022
 */
 #include <stdio.h>
+#include <checkalloc.h>
 #include "../rpc/rpcvec.h"
 
 //FIXME: only first element of array is able to be accessed, everything else is
@@ -67,6 +68,7 @@ product_1_svc(vec_and_num * input_vector_pair,struct svc_req *req)
     static vec product;
     product.vec_len = input_vector_pair->vector.vec_len;
     product.vec_val = malloc(sizeof(double) * product.vec_len);
+    checkalloc(product.vec_val);
     for (int i=0; i<=input_vector_pair->vector.vec_len; i++)
         product.vec_val[i] = input_vector_pair->vector.vec_val[i]
                            * input_vector_pair->number;
