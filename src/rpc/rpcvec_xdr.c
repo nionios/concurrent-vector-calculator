@@ -17,6 +17,18 @@ xdr_vec (XDR *xdrs, vec *objp)
 }
 
 bool_t
+xdr_min_and_max (XDR *xdrs, min_and_max *objp)
+{
+	register int32_t *buf;
+
+	 if (!xdr_double (xdrs, &objp->min))
+		 return FALSE;
+	 if (!xdr_double (xdrs, &objp->max))
+		 return FALSE;
+	return TRUE;
+}
+
+bool_t
 xdr_vec_and_num (XDR *xdrs, vec_and_num *objp)
 {
 	register int32_t *buf;

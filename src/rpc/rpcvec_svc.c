@@ -41,7 +41,7 @@ vec_program_1(struct svc_req *rqstp, register SVCXPRT *transp)
 
 	case MINMAX:
 		_xdr_argument = (xdrproc_t) xdr_vec;
-		_xdr_result = (xdrproc_t) xdr_double;
+		_xdr_result = (xdrproc_t) xdr_min_and_max;
 		local = (char *(*)(char *, struct svc_req *)) minmax_1_svc;
 		break;
 

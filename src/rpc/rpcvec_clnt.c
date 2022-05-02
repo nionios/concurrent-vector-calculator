@@ -24,15 +24,15 @@ average_1(vec *argp, CLIENT *clnt)
 	return (&clnt_res);
 }
 
-double *
+min_and_max *
 minmax_1(vec *argp, CLIENT *clnt)
 {
-	static double clnt_res;
+	static min_and_max clnt_res;
 
 	memset((char *)&clnt_res, 0, sizeof(clnt_res));
 	if (clnt_call (clnt, MINMAX,
 		(xdrproc_t) xdr_vec, (caddr_t) argp,
-		(xdrproc_t) xdr_double, (caddr_t) &clnt_res,
+		(xdrproc_t) xdr_min_and_max, (caddr_t) &clnt_res,
 		TIMEOUT) != RPC_SUCCESS) {
 		return (NULL);
 	}

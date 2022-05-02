@@ -28,13 +28,12 @@ average_1_svc(vec * input_vector, struct svc_req *req) {
     return &average;
 }
 
-//FIXME: maximum is always 0
-double *
+min_and_max *
 minmax_1_svc(vec * input_vector, struct svc_req *req) {
     fprintf(stdout,
             "\n==> Call for function minmax_1_svc with rq_proc %d",
             req->rq_proc);
-    static double minmax_array[2];
+    static min_and_max minmax;
     double min,max;
     // min and max are assigned as the first element of array initially..
     min = input_vector->vec_val[0];
@@ -49,13 +48,13 @@ minmax_1_svc(vec * input_vector, struct svc_req *req) {
         else if (current < min) min = current;
     }
     // Min is first element, max in second
-    minmax_array[0] = min;
-    minmax_array[1] = max;
+    minmax.min= min;
+    minmax.max = max;
     fprintf(stdout,"\nMax is %lf"\
            "\nMin is %lf"\
            "\n<== Return results..."
            ,max,min);
-    return minmax_array;
+    return &minmax;
 }
 
 //FIXME: munmap_chuck(): invalid pointer after first run

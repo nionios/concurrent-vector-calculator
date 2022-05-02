@@ -25,14 +25,14 @@ minmax_prompt(vec * vector, CLIENT *clnt) {
     fprintf(stdout,
             "\nYou chose to calculate the minimum and maximum of the vector."\
             "\n<== Sending info to server...");
-    double *result = minmax_1(vector,clnt);
-    if (result == (double *)NULL) {
+    min_and_max *result = minmax_1(vector,clnt);
+    if (result == (min_and_max *)NULL) {
         clnt_perror(clnt,"Call for minmax_1 function failed!");
         exit(1);
     }
     fprintf(stdout,"\n==> The minimum of the vector is: %lf"\
                    "\n==> The maximum of the vector is: %lf",
-                   result[0], result[1]);
+                   result->min, result->max);
 }
 
 void
