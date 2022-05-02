@@ -2,11 +2,16 @@
 #  (For example, without the flag -I this does not compile on my Arch Linux
 #  machine.
 human_files:
-	cc ./rpcvec_server.c ../rpc/rpcvec_svc.c ../rpc/rpcvec_xdr.c $(OFLAGS_SERVER) $(CFLAGS)
-	cc ./rpcvec_client.c ./prompts.c ../rpc/rpcvec_clnt.c ../rpc/rpcvec_xdr.c $(OFLAGS_CLIENT) $(CFLAGS)
+	cc $(CFILES_SERVER) $(OFLAGS_SERVER) $(CFLAGS)
+	cc $(CFILES_CLIENT) $(OFLAGS_CLIENT) $(CFLAGS)
 #Binary files are moved to the bin directory
 	mv rpcvec_client rpcvec_server ../../bin
 
+CFILES_CLIENT=./rpcvec_client.c ../rpc/rpcvec_clnt.c ../rpc/rpcvec_xdr.c\
+./prompts.c ./sanitary.c
+CFILES_SERVER=./rpcvec_server.c ../rpc/rpcvec_svc.c ../rpc/rpcvec_xdr.c
+
 OFLAGS_CLIENT=-o rpcvec_client
 OFLAGS_SERVER=-o rpcvec_server
+
 CFLAGS+=-I /usr/include/tirpc/ -ltirpc -lnsl

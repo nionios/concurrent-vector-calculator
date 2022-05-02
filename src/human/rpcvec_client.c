@@ -4,43 +4,30 @@
 *  Date Written: April 2022
 */
 #include <stdio.h>
-#include "prompts.h"
+#include <stdlib.h>
 #include "../rpc/rpcvec.h"
+#include "prompts.h"
+#include "sanitary.h"
 
-void
-sanitary_int(int * intp) {
-    char line[256];
-    int scanned;
-    if (fgets(line, sizeof(line), stdin)) {
-        if (1 == sscanf(line, "%d", &scanned))
-            *intp = scanned;
-        else intp = NULL;
-    }
-}
-
-//FIXME: make the sanitary_double function work, it spits out -0.000 all the time
-void
-sanitary_double(double * dblp) {
-    char line[256];
-    double scanned;
-    if (fgets(line, sizeof(line), stdin)) {
-        if (1 == sscanf(line, "%lf", &scanned))
-            *dblp = scanned;
-        else dblp = NULL;
+void checkalloc(void * ptr) {
+    if (ptr == NULL) {
+        fprintf(stderr, "\nError: Failed to allocate memory!\n");
+        abort();
     }
 }
 
 void
-client_side(CLIENT *clnt){
+client_side(CLIENT *clnt) {
     unsigned int choice;
     int input_size;
     int * sizep = &input_size;
     int flag=1;
-    while(flag){
+    fprintf(stdout,"*** Concurrent Vector Calculator ***");
+    while(flag) {
         fprintf(stdout,"\nPlease provide number of elements for vector: ");
-        sanitary_int(sizep);
+        sanitary_int(&sizep);
         // If input is not valid, sanitary_int returns a null pointer
-        if (sizep == NULL) {
+        if (!sizep) {
             fprintf(stderr,"\nError, invalid input type:"\
                     "Please input an integer value from 1 to 255");
         } else if (input_size < 1 || input_size > 255) {
@@ -49,23 +36,26 @@ client_side(CLIENT *clnt){
         // If no problems occur, continue normally.
         } else break;
     }
-    fprintf(stdout,"*** Concurrent Vector Calculator ***");
     vec vector;
-    vector.vec_val = malloc(sizeof(double) * input_size);
+    vector.vec_val = (double*)malloc(sizeof(double) * input_size);
+    checkalloc(vector.vec_val);
     vector.vec_len = input_size;
     for (int i=0; i<vector.vec_len; i++) {
         //Set a pointer to current array position to feed into sanitary_double
         double * valp = &vector.vec_val[i];
         fprintf(stdout,"\nPlease provide element number %d of vector: ",i);
-        sanitary_double(valp);
+        sanitary_double(&valp);
         // If input is not valid, sanitary_double returns a null pointer
-        if (valp == NULL) {
-            fprintf(stderr,"Error, invalid input type:"\
+        //DEBUG:
+        printf("\nvalp == %p",valp);
+        printf("\nvector.vec_val[%d] == %lf",i,vector.vec_val[i]);
+        //DEBUG END
+        if (!valp) {
+            fprintf(stderr,"\nError, invalid input type:"\
                     "Please input a valid double value");
             //Repeat current step if the input is wrong
             i--;
         }
-        printf("\nvector.vec_val[%d] == %lf",i,vector.vec_val[i]);
     }
     while (1) {
         fprintf(stdout,"\nPlease choose calculation to make or exit:"\

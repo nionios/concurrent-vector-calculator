@@ -6,8 +6,7 @@
 #include "../rpc/rpcvec.h"
 
 void
-average_prompt(vec * vector, CLIENT *clnt)
-{
+average_prompt(vec * vector, CLIENT *clnt) {
     fprintf(stdout,
            "\nYou chose to calculate the average of the vector."\
             "\n* Sending info to server...");
@@ -20,8 +19,7 @@ average_prompt(vec * vector, CLIENT *clnt)
 }
 
 void
-minmax_prompt(vec * vector, CLIENT *clnt)
-{
+minmax_prompt(vec * vector, CLIENT *clnt) {
     fprintf(stdout,
             "\nYou chose to calculate the minimum and maximum of the vector."\
             "\n* Sending info to server...");
@@ -36,8 +34,7 @@ minmax_prompt(vec * vector, CLIENT *clnt)
 }
 
 void
-product_prompt(vec * vector, CLIENT *clnt)
-{
+product_prompt(vec * vector, CLIENT *clnt) {
     double number;
     fprintf(stdout,
             "\nYou chose to calculate the product of the vector with a number"
