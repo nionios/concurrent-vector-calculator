@@ -10,7 +10,7 @@ void
 average_prompt(vec * vector, CLIENT *clnt) {
     fprintf(stdout,
            "\nYou chose to calculate the average of the vector."\
-            "\n* Sending info to server...");
+            "\n<== Sending info to server...");
     double *result = average_1(vector,clnt);
     if (result == (double *)NULL) {
         clnt_perror(clnt,"Call for average_1 function failed!");
@@ -19,11 +19,12 @@ average_prompt(vec * vector, CLIENT *clnt) {
     fprintf(stdout,"\n==> Average of vector is: %lf",*result);
 }
 
+//FIXME: maximum is always 0
 void
 minmax_prompt(vec * vector, CLIENT *clnt) {
     fprintf(stdout,
             "\nYou chose to calculate the minimum and maximum of the vector."\
-            "\n* Sending info to server...");
+            "\n<== Sending info to server...");
     double *result = minmax_1(vector,clnt);
     if (result == (double *)NULL) {
         clnt_perror(clnt,"Call for minmax_1 function failed!");
@@ -45,7 +46,7 @@ product_prompt(vec * vector, CLIENT *clnt) {
     vec_and_num pair;
     pair.number = number;
     pair.vector = *vector;
-    fprintf(stdout,"\n* Sending info to server...");
+    fprintf(stdout,"\n<== Sending info to server...");
     vec *result = product_1(&pair,clnt);
     if (result == (vec *)NULL) {
         clnt_perror(clnt,"Call for product_1 function failed!");
