@@ -1,6 +1,5 @@
 make:
-	cp src/human/rpcvec.x src/rpc/
 # This calls a second Makefile in src/rpc/ to rpcgen the rpc files
-	$(MAKE) -C src/rpc rpc_files
-# This calls a third Makefile in src/human/ to compile the human written files
-	$(MAKE) -C src/human human_files
+	$(MAKE) -C src/rpc make_rpc_files
+# This calls a third Makefile in src/ to compile all files into 2 binaries
+	$(MAKE) -C src/ make_c_files
