@@ -4,7 +4,7 @@
 human_files:
 	cc $(CFILES_SERVER) $(OFLAGS_SERVER) $(CFLAGS)
 	cc $(CFILES_CLIENT) $(OFLAGS_CLIENT) $(CFLAGS)
-#Binary files are moved to the bin directory
+#Binary files are then moved to the bin directory
 	mv rpcvec_client rpcvec_server ../../bin
 
 CFILES_CLIENT=./rpcvec_client.c ../rpc/rpcvec_clnt.c ../rpc/rpcvec_xdr.c\
