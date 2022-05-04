@@ -59,16 +59,16 @@ minmax_1_svc(vec * input_vector, struct svc_req *req) {
 
 //FIXME: munmap_chuck(): invalid pointer after first run
 vec *
-product_1_svc(vec_and_num * input_vector_pair, struct svc_req *req) {
+product_1_svc(prod_and_num * input_args, struct svc_req *req) {
     fprintf(stdout,
             "\n==> Call for function product_1_svc with rq_proc %d",
             req->rq_proc);
-    static vec product;
-    product.vec_len = input_vector_pair->vector.vec_len;
-    product.vec_val = (double*)malloc(sizeof(double) * product.vec_len);
-    checkalloc(product.vec_val);
-    for (int i=0; i<=input_vector_pair->vector.vec_len; i++)
-        product.vec_val[i] = input_vector_pair->vector.vec_val[i]
-                           * input_vector_pair->number;
-    return &product;
+    for (int i=0; i<=input_args->product->vec_len; i++) {
+        input_args->product->vec_val[i] = input_args->product->vec_val[i]
+                                        * input_args->number;
+        fprintf(stdout, "\nCalculated input_args->product->vec_val[%d]=%lf",
+                i, input_args->product->vec_val[i]);
+    }
+    fprintf(stdout, "\nProduct vector calculated!\n<==Return results...");
+    return input_args->product;
 }

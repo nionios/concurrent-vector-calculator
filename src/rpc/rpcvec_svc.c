@@ -22,7 +22,7 @@ vec_program_1(struct svc_req *rqstp, register SVCXPRT *transp)
 	union {
 		vec average_1_arg;
 		vec minmax_1_arg;
-		vec_and_num product_1_arg;
+		prod_and_num product_1_arg;
 	} argument;
 	char *result;
 	xdrproc_t _xdr_argument, _xdr_result;
@@ -46,7 +46,7 @@ vec_program_1(struct svc_req *rqstp, register SVCXPRT *transp)
 		break;
 
 	case PRODUCT:
-		_xdr_argument = (xdrproc_t) xdr_vec_and_num;
+		_xdr_argument = (xdrproc_t) xdr_prod_and_num;
 		_xdr_result = (xdrproc_t) xdr_vec;
 		local = (char *(*)(char *, struct svc_req *)) product_1_svc;
 		break;

@@ -25,11 +25,11 @@ struct min_and_max {
 };
 typedef struct min_and_max min_and_max;
 
-struct vec_and_num {
-	vec vector;
+struct prod_and_num {
+	vec *product;
 	double number;
 };
-typedef struct vec_and_num vec_and_num;
+typedef struct prod_and_num prod_and_num;
 
 #define VEC_PROGRAM 0x23451111
 #define VEC_VERS 1
@@ -42,8 +42,8 @@ extern  double * average_1_svc(vec *, struct svc_req *);
 extern  min_and_max * minmax_1(vec *, CLIENT *);
 extern  min_and_max * minmax_1_svc(vec *, struct svc_req *);
 #define PRODUCT 3
-extern  vec * product_1(vec_and_num *, CLIENT *);
-extern  vec * product_1_svc(vec_and_num *, struct svc_req *);
+extern  vec * product_1(prod_and_num *, CLIENT *);
+extern  vec * product_1_svc(prod_and_num *, struct svc_req *);
 extern int vec_program_1_freeresult (SVCXPRT *, xdrproc_t, caddr_t);
 
 #else /* K&R C */
@@ -64,12 +64,12 @@ extern int vec_program_1_freeresult ();
 #if defined(__STDC__) || defined(__cplusplus)
 extern  bool_t xdr_vec (XDR *, vec*);
 extern  bool_t xdr_min_and_max (XDR *, min_and_max*);
-extern  bool_t xdr_vec_and_num (XDR *, vec_and_num*);
+extern  bool_t xdr_prod_and_num (XDR *, prod_and_num*);
 
 #else /* K&R C */
 extern bool_t xdr_vec ();
 extern bool_t xdr_min_and_max ();
-extern bool_t xdr_vec_and_num ();
+extern bool_t xdr_prod_and_num ();
 
 #endif /* K&R C */
 

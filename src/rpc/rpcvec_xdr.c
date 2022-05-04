@@ -29,11 +29,11 @@ xdr_min_and_max (XDR *xdrs, min_and_max *objp)
 }
 
 bool_t
-xdr_vec_and_num (XDR *xdrs, vec_and_num *objp)
+xdr_prod_and_num (XDR *xdrs, prod_and_num *objp)
 {
 	register int32_t *buf;
 
-	 if (!xdr_vec (xdrs, &objp->vector))
+	 if (!xdr_pointer (xdrs, (char **)&objp->product, sizeof (vec), (xdrproc_t) xdr_vec))
 		 return FALSE;
 	 if (!xdr_double (xdrs, &objp->number))
 		 return FALSE;

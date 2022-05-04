@@ -40,13 +40,13 @@ minmax_1(vec *argp, CLIENT *clnt)
 }
 
 vec *
-product_1(vec_and_num *argp, CLIENT *clnt)
+product_1(prod_and_num *argp, CLIENT *clnt)
 {
 	static vec clnt_res;
 
 	memset((char *)&clnt_res, 0, sizeof(clnt_res));
 	if (clnt_call (clnt, PRODUCT,
-		(xdrproc_t) xdr_vec_and_num, (caddr_t) argp,
+		(xdrproc_t) xdr_prod_and_num, (caddr_t) argp,
 		(xdrproc_t) xdr_vec, (caddr_t) &clnt_res,
 		TIMEOUT) != RPC_SUCCESS) {
 		return (NULL);

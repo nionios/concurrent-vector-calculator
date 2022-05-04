@@ -16,8 +16,8 @@ struct min_and_max {
     double max;
 };
 
-struct vec_and_num {
-    vec vector;
+struct prod_and_num {
+    vec * product;
     double number;
 };
 
@@ -28,6 +28,6 @@ program VEC_PROGRAM {
         /*Min and Max of Vector*/
         min_and_max MINMAX(vec) = 2;
         /*Product of Vector with a number*/
-        vec PRODUCT(vec_and_num) = 3;
+        vec PRODUCT(prod_and_num) = 3;
     } = 1;
 } = 0x23451111;
