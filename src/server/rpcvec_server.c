@@ -7,9 +7,6 @@
 #include <checkalloc.h>
 #include "../rpc/rpcvec.h"
 
-//FIXME: only first element of array is able to be accessed, everything else is
-// zero (0.000000)
-
 double *
 average_1_svc(vec * input_vector, struct svc_req *req) {
     fprintf(stdout,"\n==> Call for function average_1_svc with rq_proc %d",req->rq_proc);
@@ -57,7 +54,6 @@ minmax_1_svc(vec * input_vector, struct svc_req *req) {
     return &minmax;
 }
 
-//FIXME: munmap_chuck(): invalid pointer after first run
 vec *
 product_1_svc(prod_and_num * input_args, struct svc_req *req) {
     fprintf(stdout,

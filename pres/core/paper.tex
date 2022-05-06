@@ -1,0 +1,120 @@
+\documentclass[12pt]{extarticle}
+
+\usepackage[main=greek,english]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{xcolor}
+%\usepackage{amsmath}
+\usepackage{import}
+\usepackage[superscript,biblabel]{cite}
+
+\graphicspath{ {../img/} }
+
+% this package for indentation of whole paragraph
+\usepackage{scrextend}
+
+%need this to include svg files
+\usepackage{svg}
+
+%This is to include native fonts
+\usepackage{fontspec}
+\setmainfont{GFS Didot}
+\setmonofont{Fira Code}
+%include for cool icons
+\usepackage{fontawesome5}
+
+% Add this for drawing things
+\usepackage{mathtools}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta}
+
+% Turn this on to disable text wrapping
+%\hyphenpenalty=10000
+%\hbadness=10000
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{1,1,1}
+
+\definecolor{term}{rgb}{0.9,0.9,0.92}
+
+\lstdefinelanguage{http}{
+  identifierstyle=\color{gray},
+}
+
+\lstdefinestyle{terminal}{
+    backgroundcolor=\color{term},
+    basicstyle=\color{black}\ttfamily\footnotesize,
+    breakatwhitespace=false,
+    breaklines=true,
+    numbers=none,
+    lineskip=0.25em,
+}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    numbers=left,
+    numbersep=5pt,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=2
+}
+
+\lstset{framexleftmargin=4mm, rulesepcolor=\color{black}, style=mystyle}
+
+% import the functions to define the svg files
+\import{../helpers/}{svg-functions}
+
+%Styling (sub)(sub)sections
+\usepackage{titlesec}
+\titleformat{\section}[block]{\Large\bfseries}{\thesection.}{1.4em}{}
+\titleformat{\subsection}[hang]{\large\bfseries}{\thesubsection}{1em}{}
+\titleformat{\subsubsection}[hang]{\bfseries}{\thesubsubsection}{0.8em}{}
+
+%Make the header look nice
+\usepackage{titleps}% http://ctan.org/pkg/titleps
+\newpagestyle{main}{
+\setheadrule{.4pt}% Header rule
+    \sethead{\small{Section \thesubsection}}% left
+            {\emph{\small{Διονύσης Νικολόπουλος - Concurrent Vector Calculator}}}%    center
+            {}%    right
+    \setfoot {}
+        {\thepage}
+        {}
+}
+\pagestyle{main}
+%Make line spacing = 1.5
+\usepackage{setspace}
+\onehalfspacing
+
+\usepackage[margin=1.1in]{geometry}
+
+\begin{document}
+
+\normalsize
+%\clearpage
+
+\import{../sections/}{Abstract}
+\import{../sections/}{2nd_Section}
+%\import{../sections/}{Conclusions}
+
+\clearpage
+\thispagestyle{empty}
+%\import{../sections/}{References.tex}
+%\import{../sections/}{License-footer.tex}
+
+\end{document}

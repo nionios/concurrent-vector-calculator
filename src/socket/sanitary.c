@@ -1,4 +1,4 @@
-/* Description: Input Functions that ensure correct input types
+/* Description: Helper Input Functions that ensure correct input types
  *              Take input by user, scan it afterwards, if it is not of the
  *              appropriate type assign the variable to NULL (to error check)
  * Author: Dionisis Nikolopoulos

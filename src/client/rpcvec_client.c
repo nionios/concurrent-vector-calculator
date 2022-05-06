@@ -1,13 +1,13 @@
 /* Author: Dionisis Nikolopoulos
-*  Description: Client side for the concurrent vector calculator
+*  Description: RPC Client for the concurrent vector calculator
 *  License: GPLv3
 *  Date Written: April 2022
 */
 #include <stdio.h>
 #include "../rpc/rpcvec.h"
+#include <checkalloc.h>
 #include <prompts.h>
 #include <sanitary.h>
-#include <checkalloc.h>
 
 void
 client_side(CLIENT *clnt) {
