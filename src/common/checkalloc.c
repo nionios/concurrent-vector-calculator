@@ -10,8 +10,8 @@
 
 void
 checkalloc(void * ptr) {
-    if (ptr == NULL) {
-        fprintf(stderr, "\nError: Failed to allocate memory!\n");
+    if (!ptr) {
+        fprintf(stderr, "\ncheckalloc() Error: Failed to allocate memory!\n");
         abort();
     }
 }
