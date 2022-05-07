@@ -51,6 +51,7 @@ vector_info_prompt(struct sockaddr_in si_other, int slen, int s) {
             //Repeat current step if the input is wrong
             i--;
         } else {
+            printf("\n\ninput val  = %lf\n\n",*input_val);
             //Write the double into the buffer string to be sent to server
             snprintf(buf, BUFLEN, "%lf", *input_val);
             //Send value to RPC client

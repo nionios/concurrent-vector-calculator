@@ -9,7 +9,7 @@
  */
 #include<stdio.h>
 #include<string.h> //for memset
-#include<stdlib.h> //for exit(0);
+#include<stdlib.h> //for exit();
 #include<arpa/inet.h>
 #include<sys/socket.h>
 
@@ -28,10 +28,20 @@ main(int argc, char *argv[]) {
     char *cur;
     char buf[BUFLEN];
 
-    //Create a UDP socket
-    s=socket(AF_INET, SOCK_DGRAM, 0);
+    fprintf(stdout,"\n*** Concurrent Vector Calculator Middleware started ***");
+    // Create a CLIENT struct and connect to the RPC server
+    CLIENT *clnt = clnt_create("localhost", VEC_PROGRAM, VEC_VERS, "udp");
+    if (!clnt) {
+        fprintf(stderr,"\nError: Could not connect to the RPC server");
+        exit(2);
+    } else fprintf(stdout,"\n* Connected to the RPC server...");
 
-    //Zero out the structure
+    // Create a UDP socket
+    s=socket(AF_INET, SOCK_STREAM, 0);
+    if (s < 0) fprintf(stderr,"\nError: Socket could not be created");
+    else fprintf(stdout,"\n* Socket created...");
+
+    // Zero out the structure
     memset((char *) &si_me, 0, sizeof(si_me));
 
     // Check for arguments and store them if they are not provided
@@ -42,13 +52,6 @@ main(int argc, char *argv[]) {
         exit(1);
     }
 
-    fprintf(stdout,"\n* Connecting to the RPC server...");
-    CLIENT *clnt = clnt_create("localhost", VEC_PROGRAM, VEC_VERS, "udp");
-    if (!clnt) {
-        fprintf(stderr,"\nError: Could not connect to the RPC server");
-        exit(1);
-    }
-
     portno = atoi(argv[1]);
     si_me.sin_family = AF_INET;
     si_me.sin_port = htons(portno);
@@ -56,13 +59,16 @@ main(int argc, char *argv[]) {
 
     //Bind socket to port
     if (bind(s, (struct sockaddr *) &si_me, sizeof(si_me)) < 0) {
-        fprintf(stderr,"\nError: Socket could not be bound");
-        exit(2);
-    }
+        fprintf(stderr,"\nError: Socket could not be bound to port");
+        exit(3);
+    } else fprintf(stdout,"\n* Socket bound to port %d...", portno);
 
     //Start listening for data on maximum 6 clients
-    if (listen(s, 6) == 0) printf("* Listening...\n");
-    else fprintf(stderr,"\nError: Could not listen");
+    if (listen(s, 6) == 0) fprintf(stdout,"\n* Listening to socket...");
+    else {
+        fprintf(stderr,"\nError: Could not listen to socket");
+        exit(4);
+    }
 
     while(1) {
         printf("\n* Waiting for data...");
@@ -99,7 +105,7 @@ main(int argc, char *argv[]) {
                 double *result_1 = average_1(&vector, clnt);
                 if (result_1 == (double *)NULL) {
                     clnt_perror(clnt,"Call for average_1 function failed!");
-                    exit(1);
+                    exit(5);
                 }
                 fprintf(stdout,"\n==> Average of vector is: %lf", *result_1);
                 break;
@@ -107,7 +113,7 @@ main(int argc, char *argv[]) {
                 min_and_max *result_2 = minmax_1(&vector, clnt);
                 if (result_2 == (min_and_max *)NULL) {
                     clnt_perror(clnt,"Call for minmax_1 function failed!");
-                    exit(1);
+                    exit(6);
                 } fprintf(stdout,"\n==> The minimum of the vector is: %lf"\
                         "\n==> The maximum of the vector is: %lf",
                         result_2->min, result_2->max);
@@ -128,7 +134,7 @@ main(int argc, char *argv[]) {
                 args.product = product_1(&args,clnt);
                 if (args.product == (vec *)NULL) {
                     clnt_perror(clnt,"Call for product_1 function failed!");
-                    exit(1);
+                    exit(7);
                 }
                 vec product = *args.product;
                 fprintf(stdout,"\n==> The product vector is:");
