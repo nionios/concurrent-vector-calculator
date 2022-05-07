@@ -15,14 +15,15 @@
 #include <stdio.h>
 #include <prompts.h>
 #include <sanitary.h>
+#include <unistd.h>    //for close()
 
 #define BUFLEN 512  //Max length of buffer
 
 int main(int argc, char *argv[])
 {
+    struct sockaddr_in si_me;
     struct sockaddr_in si_other;
-    struct sockaddr_in cli_addr;
-    int s, i, portno, slen=sizeof(si_other);
+    int s, i, portno, slen=sizeof(si_me);
     int testint;
     float testfloat;
     char buf[BUFLEN];
@@ -37,13 +38,12 @@ int main(int argc, char *argv[])
         exit(1);
     }
 
-    s=socket(AF_INET, SOCK_DGRAM, 0);
-
-    cli_addr.sin_family = AF_INET;
-    cli_addr.sin_port = htons(0);
-    cli_addr.sin_addr.s_addr = INADDR_ANY;
-
-    bind(s, (struct sockaddr *) &cli_addr, sizeof(cli_addr));
+    fprintf(stdout,"*** Concurrent Vector Calculator ***");
+    s=socket(AF_INET, SOCK_STREAM, 0);
+    if (s < 0) {
+        fprintf(stderr,"\nError: Socket could not be opened");
+        exit(2);
+    } else fprintf(stdout,"\n* Socket opened...");
 
     bzero((char *) &si_other, sizeof(si_other));
     si_other.sin_family = AF_INET;
@@ -52,11 +52,16 @@ int main(int argc, char *argv[])
     bcopy((char *)server->h_addr,
             (char *)&si_other.sin_addr.s_addr,
             server->h_length);
-
+    // Get server port from arguments
     portno = atoi(argv[2]);
     si_other.sin_port = htons(portno);
 
-    fprintf(stdout,"*** Concurrent Vector Calculator ***");
+    fprintf(stdout,"\n* Connecting to server...");
+    if (connect(s, (struct sockaddr *) &si_other, sizeof(si_other)) < 0) {
+        fprintf(stderr,"\nError: Cannot connect to server in port %d", portno);
+        exit(2);
+    } else fprintf(stdout,"\n* Connected to server!");
+
     // Take the basic info of the vector from the user
     vector_info_prompt(si_other, slen, s);
     unsigned int choice;

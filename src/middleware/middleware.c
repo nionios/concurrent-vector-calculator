@@ -7,15 +7,15 @@
  * Date Written  : April 2022
  * Some code based on "Simple udp server" by Silver Moon (m00n.silv3r@gmail.com)
  */
-#include<stdio.h>
-#include<string.h>     //for memset
-#include<stdlib.h>     //for exit()
-#include<sys/socket.h> //for sockets
-#include <unistd.h>    //for close()
-#include<arpa/inet.h>
-#include "../rpc/rpcvec.h"
+#include <stdio.h>
+#include <string.h>     //for memset
+#include <stdlib.h>     //for exit()
+#include <sys/socket.h> //for sockets
+#include <unistd.h>     //for close()
+#include <arpa/inet.h>
 #include <prompts.h>
 #include <checkalloc.h>
+#include "../rpc/rpcvec.h"
 
 #define BUFLEN 512  //Max length of buffer
 
@@ -32,7 +32,10 @@ main(int argc, char *argv[]) {
 
     // Create a UDP socket
     s=socket(AF_INET, SOCK_STREAM, 0);
-    if (s < 0) fprintf(stderr,"\nError: Socket could not be created");
+    if (s < 0)  {
+        fprintf(stderr,"\nError: Socket could not be created");
+        exit(1);
+    }
     else fprintf(stdout,"\n* Socket created...");
 
     // Zero out the structure
@@ -43,7 +46,7 @@ main(int argc, char *argv[]) {
         fprintf(stderr,
                 "middleware - usage: %s [port_number] \n",
                 argv[0]);
-        exit(1);
+        exit(2);
     }
 
     portno = atoi(argv[1]);
@@ -54,21 +57,21 @@ main(int argc, char *argv[]) {
     //Bind socket to port
     if (bind(s, (struct sockaddr *) &si_me, sizeof(si_me)) < 0) {
         fprintf(stderr,"\nError: Socket could not be bound to port");
-        exit(2);
+        exit(3);
     } else fprintf(stdout,"\n* Socket bound to port %d...", portno);
 
     //Start listening for data on maximum 6 clients
     if (listen(s, 6) == 0) fprintf(stdout,"\n* Listening to socket...");
     else {
         fprintf(stderr,"\nError: Could not listen to socket");
-        exit(3);
+        exit(4);
     }
 
     // Create a CLIENT struct and connect to the RPC server
     CLIENT *clnt = clnt_create("localhost", VEC_PROGRAM, VEC_VERS, "udp");
     if (!clnt) {
         fprintf(stderr,"\nError: Could not connect to the RPC server");
-        exit(4);
+        exit(5);
     } else fprintf(stdout,"\n* Connected to the RPC server...");
 
     while(1) {
@@ -78,7 +81,7 @@ main(int argc, char *argv[]) {
             fprintf(stderr,"\nError: Could create new socket");
             // We now need to destroy the RPC client on exit too
             clnt_destroy(clnt);
-            exit(5);
+            exit(6);
         } else fprintf(stdout,"\n* New socket created...");
         // Creating a new process
         int pid = fork();
@@ -86,8 +89,9 @@ main(int argc, char *argv[]) {
             fprintf(stderr,"\nError: Could fork new process, pid == %d",pid);
             // We now need to destroy the RPC client on exit too
             clnt_destroy(clnt);
-            exit(6);
-        } else fprintf(stdout,"\n* New process forked...");
+            exit(7);
+        }
+        fprintf(stdout,"\n* New process forked...");
 
         if (!pid) {
             //Close previous socket
