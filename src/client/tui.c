@@ -21,9 +21,8 @@
 
 int main(int argc, char *argv[])
 {
-    struct sockaddr_in si_me;
     struct sockaddr_in si_other;
-    int s, i, portno, slen=sizeof(si_me);
+    int s, i, portno;
     int testint;
     float testfloat;
     char buf[BUFLEN];
@@ -45,13 +44,17 @@ int main(int argc, char *argv[])
         exit(2);
     } else fprintf(stdout,"\n* Socket opened...");
 
+    server = gethostbyname(argv[1]);
+    if (!server) {
+        fprintf(stderr, "ERROR, no such host\n");
+        exit(0);
+    }
+
     bzero((char *) &si_other, sizeof(si_other));
     si_other.sin_family = AF_INET;
-
-    server = gethostbyname(argv[1]);
     bcopy((char *)server->h_addr,
-            (char *)&si_other.sin_addr.s_addr,
-            server->h_length);
+          (char *)&si_other.sin_addr.s_addr,
+          server->h_length);
     // Get server port from arguments
     portno = atoi(argv[2]);
     si_other.sin_port = htons(portno);
@@ -63,7 +66,7 @@ int main(int argc, char *argv[])
     } else fprintf(stdout,"\n* Connected to server!");
 
     // Take the basic info of the vector from the user
-    vector_info_prompt(si_other, slen, s);
+    vector_info_prompt(si_other, sizeof(si_other), s);
     unsigned int choice;
 
     while (1) {
@@ -81,13 +84,13 @@ int main(int argc, char *argv[])
                 fprintf(stdout,"--> Exiting...");
                 return 0;
             case 1:
-                average_prompt(choice, si_other, slen, s);
+                average_prompt(choice, si_other, sizeof(si_other), s);
                 break;
             case 2:
-                minmax_prompt(choice, si_other, slen, s);
+                minmax_prompt(choice, si_other, sizeof(si_other), s);
                 break;
             case 3:
-                product_prompt(choice, si_other, slen, s);
+                product_prompt(choice, si_other, sizeof(si_other), s);
                 break;
             default:
                 fprintf(stdout,

@@ -19,9 +19,8 @@ vector_info_prompt(struct sockaddr_in si_other, int slen, int s) {
     int input_size;
     char buf[BUFLEN];
     int * sizep = &input_size;
-    int flag=1;
 
-    while(flag) {
+    while(1) {
         fprintf(stdout,"\nPlease provide number of elements for vector: ");
         sanitary_int(&sizep);
         // If input is not valid, sanitary_int returns a null pointer
@@ -35,9 +34,9 @@ vector_info_prompt(struct sockaddr_in si_other, int slen, int s) {
         } else break;
     }
     //Write the string into the buffer string to be sent to RPC Client
-    snprintf(buf, BUFLEN, "%d", input_size);
+    //snprintf(buf, BUFLEN, "%d", input_size);
     //Send vector size to RPC client
-    sendto(s, buf, strlen(buf), 0, (struct sockaddr *) &si_other, slen);
+    sendto(s, &input_size, sizeof(int), 0, (struct sockaddr *) &si_other, slen);
     //Now lets start to read the elements of the array
     double * input_val;
 
@@ -58,8 +57,6 @@ vector_info_prompt(struct sockaddr_in si_other, int slen, int s) {
             sendto(s, buf, strlen(buf), 0, (struct sockaddr *) &si_other, slen);
         }
     }
-    //TODO: Receive errors
-    //recvfrom(s, buf, BUFLEN, 0, (struct sockaddr *) &si_other, &slen);
 }
 
 void

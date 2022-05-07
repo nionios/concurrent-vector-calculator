@@ -22,7 +22,7 @@
 int
 main(int argc, char *argv[]) {
     struct sockaddr_in si_me, si_other;
-    int s, s_new, portno, slen = sizeof(si_other);
+    int s, s_new, portno;
     int choice, recv_size;
     double recv_val;
     char *cur;
@@ -52,7 +52,7 @@ main(int argc, char *argv[]) {
     portno = atoi(argv[1]);
     si_me.sin_family = AF_INET;
     si_me.sin_port = htons(portno);
-    si_me.sin_addr.s_addr = htonl(INADDR_ANY);
+    si_me.sin_addr.s_addr = INADDR_ANY;
 
     //Bind socket to port
     if (bind(s, (struct sockaddr *) &si_me, sizeof(si_me)) < 0) {
@@ -61,7 +61,7 @@ main(int argc, char *argv[]) {
     } else fprintf(stdout,"\n* Socket bound to port %d...", portno);
 
     //Start listening for data on maximum 6 clients
-    if (listen(s, 6) == 0) fprintf(stdout,"\n* Listening to socket...");
+    if (listen(s, 5) == 0) fprintf(stdout,"\n* Listening to socket...");
     else {
         fprintf(stderr,"\nError: Could not listen to socket");
         exit(4);
@@ -74,11 +74,12 @@ main(int argc, char *argv[]) {
         exit(5);
     } else fprintf(stdout,"\n* Connected to the RPC server...");
 
-    while(1) {
-        int si_other_size = sizeof(si_other);
-        s_new = accept(s, (struct sockaddr *) &si_other, &si_other_size);
+    int flag = 1;
+    while(flag) {
+        int slen = sizeof(si_other);
+        s_new = accept(s, (struct sockaddr *) &si_other, &slen);
         if (s_new < 0) {
-            fprintf(stderr,"\nError: Could create new socket");
+            fprintf(stderr,"\nError: Couldn't create new socket");
             // We now need to destroy the RPC client on exit too
             clnt_destroy(clnt);
             exit(6);
@@ -86,26 +87,31 @@ main(int argc, char *argv[]) {
         // Creating a new process
         int pid = fork();
         if (pid < 0) {
-            fprintf(stderr,"\nError: Could fork new process, pid == %d",pid);
+            fprintf(stderr,"\nError: Couldn't fork new process, pid == %d",pid);
             // We now need to destroy the RPC client on exit too
             clnt_destroy(clnt);
             exit(7);
-        }
-        fprintf(stdout,"\n* New process forked...");
+        } else fprintf(stdout,"\n* New process forked...");
 
         if (!pid) {
             //Close previous socket
             close(s);
             fprintf(stdout,"\n* Waiting for vector data...");
             fflush(stdout);
-            //Fill buffer with NULL
-            memset(buf,'\0', BUFLEN);
-            // Try to receive the integer of vector size
-            recv_size = recvfrom(s, buf, BUFLEN, 0, (struct sockaddr *) &si_other,
-                    &slen);
-            fprintf(stdout,
-                    "==> Received size of vector from client side, size is %d",
-                    recv_size);
+            ////Fill buffer with NULL
+            //memset(&recv_size,'\0', sizeof(int));
+            //// Try to receive the integer of vector size
+            if (recv(s_new, &recv_size, sizeof(int), 0) < 0) {
+                fprintf(stderr,"\nError: Couldn't receive vector size");
+                clnt_destroy(clnt);
+                // Signal to all processes to exit
+                exit(7);
+            } else {
+                fprintf(stdout,
+                  "\n==> Received size of vector from client side, size is %d",
+                  recv_size);
+            }
+
             // Create a vector object and a vector pointer
             vec vector;
             // Vector p needed in some cases (case 3)
@@ -123,10 +129,12 @@ main(int argc, char *argv[]) {
                 //Put the received value on the vector's array
                 vector.vec_val[i] = recv_val;
             }
-            choice = recvfrom(s, buf, BUFLEN, 0,
-                    (struct sockaddr *) &si_other,
-                    &slen);
+            recv(s, &choice, sizeof(int), 0);
             switch (choice) {
+                case 0:
+                   //Exit the program
+                   flag = 0;
+                   break;
                 case 1:
                     double *result_1 = average_1(&vector, clnt);
                     if (result_1 == (double *)NULL) {
