@@ -11,6 +11,7 @@
 #include <netinet/in.h>
 #include <netdb.h>
 #include <sanitary.h>
+#include "../rpc/rpcvec.h"
 
 #define BUFLEN 512
 
@@ -54,15 +55,11 @@ vector_info_prompt(struct sockaddr_in si_other, int slen, int s) {
 
 void
 average_prompt(int choice, struct sockaddr_in si_other, int slen, int s) {
-    char buf[BUFLEN];
     fprintf(stdout,
            "\nYou chose to calculate the average of the vector."\
             "\n<== Sending info to server...");
-    //double *result = average_1(vector,clnt);
-    //Write the choice string into the buffer string to be sent to server
-    snprintf(buf, BUFLEN, "%d", choice);
     //Send the choice number to RPC client
-    sendto(s, buf, strlen(buf), 0, (struct sockaddr *) &si_other, slen);
+    send(s, &choice, sizeof(int), 0);
     // TODO: Receive results
     //recvfrom(s, buf, BUFLEN, 0, (struct sockaddr *) &si_other, &slen);
     //double *result = average_1(vector,clnt);
@@ -74,19 +71,16 @@ average_prompt(int choice, struct sockaddr_in si_other, int slen, int s) {
     //fprintf(stdout,"\n==> Average of vector is: %lf", *result);
 }
 
-//FIXME: maximum is always 0
 void
 minmax_prompt(int choice, struct sockaddr_in si_other, int slen, int s) {
-    char buf[BUFLEN];
     fprintf(stdout,
             "\nYou chose to calculate the minimum and maximum of the vector."\
             "\n<== Sending info to server...");
-    //Write the choice string into the buffer string to be sent to RPC client
-    snprintf(buf, BUFLEN, "%d", choice);
     //Send the choice number to RPC client
-    sendto(s, buf, strlen(buf), 0, (struct sockaddr *) &si_other, slen);
+    send(s, &choice, sizeof(int), 0);
     // TODO: Receive results
-    //min_and_max *result = minmax_1(vector,clnt);
+    //min_and_max *result;
+   // recv();
     //if (result == (min_and_max *)NULL) {
     //    clnt_perror(clnt,"Call for minmax_1 function failed!");
     //    exit(1);
@@ -98,19 +92,14 @@ minmax_prompt(int choice, struct sockaddr_in si_other, int slen, int s) {
 
 void
 product_prompt(int choice, struct sockaddr_in si_other, int slen, int s) {
-    char buf[BUFLEN];
     double number;
     fprintf(stdout,
             "\nYou chose to calculate the product of the vector with a number"
             "\n Please input the number you wish to multiply the vector with: "
             );
-    //TODO: error checking
-    scanf("%lf",&number);
-    //Write the choice and number string into the buffer string to be sent to
-    //RPC Client
-    snprintf(buf, BUFLEN, "%d %lf", choice, number);
     //Send the choice number to RPC client
-    sendto(s, buf, strlen(buf), 0, (struct sockaddr *) &si_other, slen);
+    send(s, &choice, sizeof(int), 0);
+    //TODO: error checking
     // TODO: Receive results
     //prod_and_num args;
     //args.number = number;

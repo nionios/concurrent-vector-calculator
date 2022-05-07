@@ -136,68 +136,69 @@ main(int argc, char *argv[]) {
                 //Put the received value on the vector's array
                 vector.vec_val[i] = recv_val;
             }
-            // Try to receive recv_choice number from client
-            if (recv(s_new, &recv_choice, sizeof(int), 0) < 0) {
-                fprintf(stderr,"\nError: Couldn't receive recv_choice value");
-                clnt_destroy(clnt);
-                exit(9);
-            } else {
-                fprintf(stdout,
-                        "\n==> Received recv_choice number from client side,"\
-                        " recv_choice is %d",
-                        recv_choice);
-            }
-            switch (recv_choice) {
-                case 0:
-                   //Exit the program
-                   flag = 0;
-                   break;
-                case 1:
-                    double *result_1 = average_1(&vector, clnt);
-                    if (result_1 == (double *)NULL) {
-                        clnt_perror(clnt,"Call for average_1 function failed!");
-                        exit(5);
-                    }
-                    fprintf(stdout,"\n==> Average of vector is: %lf", *result_1);
-                    break;
-                case 2:
-                    min_and_max *result_2 = minmax_1(&vector, clnt);
-                    if (result_2 == (min_and_max *)NULL) {
-                        clnt_perror(clnt,"Call for minmax_1 function failed!");
-                        exit(6);
-                    } fprintf(stdout,"\n==> The minimum of the vector is: %lf"\
-                            "\n==> The maximum of the vector is: %lf",
-                            result_2->min, result_2->max);
-                    break;
-                case 3:
-                    // Try to receive the number that will multiply the vector
-                    double number = recvfrom(s, buf, BUFLEN, 0,
-                            (struct sockaddr *) &si_other,
-                            &slen);
-                    prod_and_num args;
-                    args.number = number;
-                    // Initialize the product vector with the elements of original vector
-                    args.product = vectorp;
-                    fprintf(stdout,"\n==> The product vector is:");
-                    for (int i=0; i<args.product->vec_len; i++)
-                        fprintf(stdout,"\n product[%d] = %lf", i, args.product->vec_val[i]);
-                    fprintf(stdout,"\n<== Sending info to server...");
-                    args.product = product_1(&args,clnt);
-                    if (args.product == (vec *)NULL) {
-                        clnt_perror(clnt,"Call for product_1 function failed!");
-                        exit(7);
-                    }
-                    vec product = *args.product;
-                    fprintf(stdout,"\n==> The product vector is:");
-                    for (int i=0; i<product.vec_len; i++)
-                        fprintf(stdout,"\n product[%d] = %lf",
-                                i, product.vec_val[i]);
+            while (flag) {
+                // Try to receive recv_choice number from client
+                if (recv(s_new, &recv_choice, sizeof(int)*recv_size, 0) < 0) {
+                    fprintf(stderr,"\nError: Couldn't receive recv_choice value");
+                    clnt_destroy(clnt);
+                    exit(9);
+                } else {
+                    fprintf(stdout,
+                            "\n==> Received recv_choice number from client side,"\
+                            " recv_choice is %d",
+                            recv_choice);
+                }
+                switch (recv_choice) {
+                    case 0:
+                        //Exit the program
+                        flag = 0;
+                        break;
+                    case 1:
+                        double *result_1 = average_1(&vector, clnt);
+                        if (result_1 == (double *)NULL) {
+                            clnt_perror(clnt,"Call for average_1 function failed!");
+                            exit(5);
+                        }
+                        fprintf(stdout,"\n==> Average of vector is: %lf", *result_1);
+                        break;
+                    case 2:
+                        min_and_max *result_2 = minmax_1(&vector, clnt);
+                        if (result_2 == (min_and_max *)NULL) {
+                            clnt_perror(clnt,"Call for minmax_1 function failed!");
+                            exit(6);
+                        } fprintf(stdout,"\n==> The minimum of the vector is: %lf"\
+                                "\n==> The maximum of the vector is: %lf",
+                                result_2->min, result_2->max);
+                        break;
+                    case 3:
+                        // Try to receive the number that will multiply the vector
+                        double number = recvfrom(s, buf, BUFLEN, 0,
+                                (struct sockaddr *) &si_other,
+                                &slen);
+                        prod_and_num args;
+                        args.number = number;
+                        // Initialize the product vector with the elements of original vector
+                        args.product = vectorp;
+                        fprintf(stdout,"\n==> The product vector is:");
+                        for (int i=0; i<args.product->vec_len; i++)
+                            fprintf(stdout,"\n product[%d] = %lf", i, args.product->vec_val[i]);
+                        fprintf(stdout,"\n<== Sending info to server...");
+                        args.product = product_1(&args,clnt);
+                        if (args.product == (vec *)NULL) {
+                            clnt_perror(clnt,"Call for product_1 function failed!");
+                            exit(7);
+                        }
+                        vec product = *args.product;
+                        fprintf(stdout,"\n==> The product vector is:");
+                        for (int i=0; i<product.vec_len; i++)
+                            fprintf(stdout,"\n product[%d] = %lf",
+                                    i, product.vec_val[i]);
 
-                    break;
-                default:
+                        break;
+                }
             }
-        }
         close(s_new);
+        }
     }
     clnt_destroy(clnt);
     return 0;
