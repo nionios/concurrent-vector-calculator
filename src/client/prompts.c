@@ -1,13 +1,16 @@
-/* Description: Prompts for the tui
- *  License: GPLv3
- * Author: Dionisis Nikolopoulos
- *  Date Written: April 2022
-*/
+/* Author        : Dionisis Nikolopoulos (dennis.nik@protonmail.com)
+ * Description   : Prompts for the TUI
+ * Student Email : ice18390126@uniwa.gr
+ * License       : GPLv3
+ * Author        : Dionisis Nikolopoulos
+ * Date Written  : April 2022
+ */
 #include <stdio.h>
 #include <string.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <netdb.h>
+#include <sanitary.h>
 
 #define BUFLEN 512
 
@@ -47,11 +50,12 @@ vector_info_prompt(struct sockaddr_in si_other, int slen, int s) {
                     "Please input a valid double value");
             //Repeat current step if the input is wrong
             i--;
+        } else {
+            //Write the double into the buffer string to be sent to server
+            snprintf(buf, BUFLEN, "%lf", *input_val);
+            //Send value to RPC client
+            sendto(s, buf, strlen(buf), 0, (struct sockaddr *) &si_other, slen);
         }
-        //Write the double into the buffer string to be sent to server
-        snprintf(buf, BUFLEN, " %lf", *input_val);
-        //Send value to RPC client
-        sendto(s, buf, strlen(buf), 0, (struct sockaddr *) &si_other, slen);
     }
     //TODO: Receive errors
     //recvfrom(s, buf, BUFLEN, 0, (struct sockaddr *) &si_other, &slen);

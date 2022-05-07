@@ -1,12 +1,10 @@
-/* Description: Prompts for the tui
- *  License: GPLv3
- * Author: Dionisis Nikolopoulos
- *  Date Written: April 2022
-*/
-/*
-   Simple udp client
-   Silver Moon (m00n.silv3r@gmail.com)
-   */
+/* Author        : Dionisis Nikolopoulos (dennis.nik@protonmail.com)
+ * Student Email : ice18390126@uniwa.gr
+ * Description   : TUI for the concurrent vector calculator
+ * License       : GPLv3
+ * Date Written  : April 2022
+ * Some code based on "Simple udp server" by Silver Moon (m00n.silv3r@gmail.com)
+ */
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -20,7 +18,6 @@
 
 #define BUFLEN 512  //Max length of buffer
 
-
 int main(int argc, char *argv[])
 {
     struct sockaddr_in si_other;
@@ -31,6 +28,14 @@ int main(int argc, char *argv[])
     char buf[BUFLEN];
     char *cur;
     struct hostent *server;
+
+    // Check for arguments and store them if they are not provided
+    if (argc < 3) {
+        fprintf(stderr,
+                "rpcvec_client - usage: %s [server_host] [port_number] \n",
+                argv[0]);
+        exit(1);
+    }
 
     s=socket(AF_INET, SOCK_DGRAM, 0);
 
@@ -50,8 +55,6 @@ int main(int argc, char *argv[])
 
     portno = atoi(argv[2]);
     si_other.sin_port = htons(portno);
-
-    // inet_aton("192.168.0.70", &si_other.sin_addr);
 
     fprintf(stdout,"*** Concurrent Vector Calculator ***");
     // Take the basic info of the vector from the user

@@ -1,8 +1,9 @@
-/* Author: Dionisis Nikolopoulos
-*  Description: The server side code of concurrent vector calculator
-*  License: GPLv3
-*  Date Written: April 2022
-*/
+/* Author        : Dionisis Nikolopoulos (dennis.nik@protonmail.com)
+ * Student Email : ice18390126@uniwa.gr
+ * Description   : The RPC server side code of concurrent vector calculator
+ * License       : GPLv3
+ * Date Written  : April 2022
+ */
 #include <stdio.h>
 #include <checkalloc.h>
 #include "../rpc/rpcvec.h"
