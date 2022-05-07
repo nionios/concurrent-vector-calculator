@@ -23,7 +23,7 @@ int
 main(int argc, char *argv[]) {
     struct sockaddr_in si_me, si_other;
     int s, s_new, portno;
-    int choice, recv_size;
+    int recv_choice, recv_size;
     double recv_val;
     char *cur;
     char buf[BUFLEN];
@@ -97,14 +97,10 @@ main(int argc, char *argv[]) {
             //Close previous socket
             close(s);
             fprintf(stdout,"\n* Waiting for vector data...");
-            fflush(stdout);
-            ////Fill buffer with NULL
-            //memset(&recv_size,'\0', sizeof(int));
-            //// Try to receive the integer of vector size
+            // Try to receive the integer of vector size
             if (recv(s_new, &recv_size, sizeof(int), 0) < 0) {
                 fprintf(stderr,"\nError: Couldn't receive vector size");
                 clnt_destroy(clnt);
-                // Signal to all processes to exit
                 exit(7);
             } else {
                 fprintf(stdout,
@@ -118,19 +114,40 @@ main(int argc, char *argv[]) {
             vec * vectorp = &vector;
             // Allocate memory based on the size of vector given by user
             vector.vec_val = (double*)malloc(sizeof(double) * recv_size);
+            // Check if allocation was successful
             checkalloc(vector.vec_val);
             vector.vec_len = recv_size;
+            fprintf(stdout,
+                    "\n* Initialized vector with %d elements!",
+                    vector.vec_len);
 
             for (int i=0; i<vector.vec_len; i++) {
-                //TODO: Try to receive values in double
-                recv_val = recvfrom(s, buf, BUFLEN, 0,
-                        (struct sockaddr *) &si_other,
-                        &slen);
+                //Try to receive values in double
+                if (recv(s_new, &recv_val, sizeof(double), 0) < 0) {
+                    fprintf(stderr,"\nError: Couldn't receive vector value");
+                    clnt_destroy(clnt);
+                    exit(8);
+                } else {
+                    fprintf(stdout,
+                            "\n==> Received value of vector from client side,"\
+                            " value is %lf",
+                            recv_val);
+                }
                 //Put the received value on the vector's array
                 vector.vec_val[i] = recv_val;
             }
-            recv(s, &choice, sizeof(int), 0);
-            switch (choice) {
+            // Try to receive recv_choice number from client
+            if (recv(s_new, &recv_choice, sizeof(int), 0) < 0) {
+                fprintf(stderr,"\nError: Couldn't receive recv_choice value");
+                clnt_destroy(clnt);
+                exit(9);
+            } else {
+                fprintf(stdout,
+                        "\n==> Received recv_choice number from client side,"\
+                        " recv_choice is %d",
+                        recv_choice);
+            }
+            switch (recv_choice) {
                 case 0:
                    //Exit the program
                    flag = 0;

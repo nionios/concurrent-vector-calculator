@@ -17,7 +17,6 @@
 void
 vector_info_prompt(struct sockaddr_in si_other, int slen, int s) {
     int input_size;
-    char buf[BUFLEN];
     int * sizep = &input_size;
 
     while(1) {
@@ -33,29 +32,23 @@ vector_info_prompt(struct sockaddr_in si_other, int slen, int s) {
             // If no problems occur, continue normally.
         } else break;
     }
-    //Write the string into the buffer string to be sent to RPC Client
-    //snprintf(buf, BUFLEN, "%d", input_size);
     //Send vector size to RPC client
-    sendto(s, &input_size, sizeof(int), 0, (struct sockaddr *) &si_other, slen);
+    send(s, &input_size, sizeof(int), 0);
     //Now lets start to read the elements of the array
-    double * input_val;
+    double input_val;
+    double * input_valp = &input_val;
 
     for (int i=0; i<input_size; i++) {
         fprintf(stdout,"\nPlease provide element number %d of vector: ",i);
-        sanitary_double(&input_val);
+        sanitary_double(&input_valp);
         // If input is not valid, sanitary_double returns a null pointer
-        if (!input_val) {
+        if (!input_valp) {
             fprintf(stderr,"\nError, invalid input type:"\
                     "Please input a valid double value");
             //Repeat current step if the input is wrong
             i--;
-        } else {
-            printf("\n\ninput val  = %lf\n\n",*input_val);
-            //Write the double into the buffer string to be sent to server
-            snprintf(buf, BUFLEN, "%lf", *input_val);
-            //Send value to RPC client
-            sendto(s, buf, strlen(buf), 0, (struct sockaddr *) &si_other, slen);
-        }
+        //Send value to RPC client
+        } else send(s, &input_val, sizeof(double), 0);
     }
 }
 
