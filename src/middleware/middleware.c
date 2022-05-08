@@ -168,12 +168,12 @@ main(int argc, char *argv[]) {
                                 "\n==> The maximum of the vector is: %lf",
                                 result_2->min, result_2->max);
                         //Send to user client
-                        send(s_new,result_2,sizeof(double)*2,0);
+                        send(s_new, result_2, sizeof(double)*2, 0);
                         break;
                     case 3:
                         // Try to receive the number that will multiply the vector
                         double number;
-                        if ( recv(s, &number, sizeof(double), 0) < 0) {
+                        if ( recv(s_new, &number, sizeof(double), 0) < 0) {
                             fprintf(stderr,"\nError: Couldn't receive number value");
                             clnt_destroy(clnt);
                             exit(10);
@@ -187,9 +187,9 @@ main(int argc, char *argv[]) {
                         args.number = number;
                         // Initialize the product vector with the elements of original vector
                         args.product = vectorp;
-                        fprintf(stdout,"\n==> The product vector is:");
-                        for (int i=0; i<args.product->vec_len; i++)
-                            fprintf(stdout,"\n product[%d] = %lf", i, args.product->vec_val[i]);
+                        //fprintf(stdout,"\n==> The current vector is:");
+                        //for (int i=0; i<args.product->vec_len; i++)
+                        //    fprintf(stdout,"\n product[%d] = %lf", i, args.product->vec_val[i]);
                         fprintf(stdout,"\n<== Sending info to server...");
                         args.product = product_1(&args,clnt);
                         if (args.product == (vec *)NULL) {
@@ -201,7 +201,12 @@ main(int argc, char *argv[]) {
                         for (int i=0; i<product.vec_len; i++)
                             fprintf(stdout,"\n product[%d] = %lf",
                                     i, product.vec_val[i]);
-                        send(s_new,&product,sizeof(product),0);
+                        // Only send the element array to socket client, length
+                        // of vector is known
+                        send(s_new,
+                             product.vec_val,
+                             sizeof(double)*product.vec_len,
+                             0);
                         break;
                 }
             }

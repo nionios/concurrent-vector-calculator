@@ -89,25 +89,39 @@ minmax_prompt(int s, int choice) {
 }
 
 void
-product_prompt(int choice, int s, int length) {
+product_prompt(int s, int choice, int length) {
     //Send the choice number to RPC client
     send(s, &choice, sizeof(int), 0);
     double number;
-    fprintf(stdout,
-            "\nYou chose to calculate the product of the vector with a number"
-            "\n Please input the number you wish to multiply the vector with: "
-            );
-    //Send the other number to RPC client
-    send(s, &number, sizeof(double), 0);
+    double * numberp = &number;
+    while (1) {
+        fprintf(stdout,
+                "\nYou chose to calculate the product of the vector with a number"
+                "\n Please input the number you wish to multiply the vector with: "
+               );
+        //Send the other number to RPC client
+        sanitary_double(&numberp);
+        // If input is not valid, sanitary_double returns a null pointer
+        if (!numberp) {
+            fprintf(stderr,"\nError, invalid input type:"\
+                    "Please input a valid double value");
+            //Repeat if the input is wrong
+        } else {
+            //Send value to RPC client
+            send(s, &number, sizeof(double), 0);
+            break;
+        }
+    }
     //Receive results
     vec product;
-    if ( recv(s,&product,sizeof(double)*length,0) < 0 ) {
+    //We already know the length of the vector, that is not going to change
+    product.vec_len = length;
+    if ( recv(s, product.vec_val, sizeof(double)*length, 0) < 0 ) {
         fprintf(stderr,"\nError: Could not receive result");
         exit(4);
     } else {
         fprintf(stdout,"\n==> The product vector is:");
         for (int i=0; i<product.vec_len; i++)
-            fprintf(stdout,"\n product[%d] = %lf",
-                    i, product.vec_val[i]);
+            fprintf(stdout,"\n product[%d] = %lf", i, product.vec_val[i]);
     }
 }
