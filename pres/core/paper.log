@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999994 (TeX Live 2022/Arch Linux) (preloaded format=xelatex 2022.5.5)  8 MAY 2022 16:16
+This is XeTeX, Version 3.141592653-2.6-0.999994 (TeX Live 2022/Arch Linux) (preloaded format=xelatex 2022.5.5)  8 MAY 2022 17:47
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1001,20 +1001,79 @@ LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-(../sections/../sections/Abstract.tex) (../sections/../sections/2nd_Section.tex
-[1
+(../sections/../sections/Abstract.tex
+Package svg Info: Last page of `./svg-inkscape/gitlab_svg-tex.pdf' is 1 on inpu
+t line 53.
+ (./svg-inkscape/gitlab_svg-tex.pdf_tex
+File: ./svg-inkscape/gitlab_svg-tex.pdf Graphic file (type pdf)
+<use ./svg-inkscape/gitlab_svg-tex.pdf, page 1>
+))
+(../sections/../sections/2nd_Section.tex [1
 
-]) [2] (./paper.aux)
+]
+Underfull \hbox (badness 10000) in paragraph at lines 46--49
+
+ []
+
+[2]
+File: ../sections/../img//compilation.png Graphic file (type bmp)
+<../sections/../img//compilation.png>
+
+Overfull \hbox (18.38234pt too wide) in paragraph at lines 50--51
+ [] 
+ []
+
+File: ../sections/../img//run_step1.png Graphic file (type bmp)
+<../sections/../img//run_step1.png>
+File: ../sections/../img//run_step2.png Graphic file (type bmp)
+<../sections/../img//run_step2.png>
+File: ../sections/../img//run_step3.png Graphic file (type bmp)
+<../sections/../img//run_step3.png>
+[3]
+File: ../sections/../img//run_step4.png Graphic file (type bmp)
+<../sections/../img//run_step4.png>
+ [4]
+File: ../sections/../img//sample_run_step1_1.png Graphic file (type bmp)
+<../sections/../img//sample_run_step1_1.png>
+File: ../sections/../img//sample_run_step1_2.png Graphic file (type bmp)
+<../sections/../img//sample_run_step1_2.png>
+File: ../sections/../img//sample_run_step1_3.png Graphic file (type bmp)
+<../sections/../img//sample_run_step1_3.png>
+ [5]
+File: ../sections/../img//sample_run_step2_3.png Graphic file (type bmp)
+<../sections/../img//sample_run_step2_3.png>
+File: ../sections/../img//sample_run_step2_1.png Graphic file (type bmp)
+<../sections/../img//sample_run_step2_1.png>
+File: ../sections/../img//sample_run_step2_2.png Graphic file (type bmp)
+<../sections/../img//sample_run_step2_2.png>
+ [6] [7]
+File: ../sections/../img//sample_run_step3_3.png Graphic file (type bmp)
+<../sections/../img//sample_run_step3_3.png>
+File: ../sections/../img//sample_run_step3_1.png Graphic file (type bmp)
+<../sections/../img//sample_run_step3_1.png>
+File: ../sections/../img//sample_run_step3_2.png Graphic file (type bmp)
+<../sections/../img//sample_run_step3_2.png>
+ [8]
+File: ../sections/../img//sample_run_step4_3.png Graphic file (type bmp)
+<../sections/../img//sample_run_step4_3.png>
+File: ../sections/../img//sample_run_step4_2.png Graphic file (type bmp)
+<../sections/../img//sample_run_step4_2.png>
+File: ../sections/../img//sample_run_step4_1.png Graphic file (type bmp)
+<../sections/../img//sample_run_step4_1.png>
+ [9] [10]
+File: ../sections/../img//sample_run_step5_1.png Graphic file (type bmp)
+<../sections/../img//sample_run_step5_1.png>
+) [11] (./paper.aux)
 Package rerunfilecheck Info: File `paper.out' has not changed.
-(rerunfilecheck)             Checksum: 5FC01E2F7D946A68926813D75D418324;366.
+(rerunfilecheck)             Checksum: 4662E1923A3606EBDCF99970AED1D3F4;656.
  ) 
 Here is how much of TeX's memory you used:
- 29915 strings out of 476156
- 597207 string characters out of 5814964
- 975161 words of memory out of 5000000
- 50179 multiletter control sequences out of 15000+600000
- 472874 words of font info for 62 fonts, out of 8000000 for 9000
+ 30288 strings out of 476156
+ 608589 string characters out of 5814964
+ 975487 words of memory out of 5000000
+ 50531 multiletter control sequences out of 15000+600000
+ 472882 words of font info for 63 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 108i,7n,106p,429b,730s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 108i,9n,106p,429b,730s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on paper.pdf (2 pages).
+Output written on paper.pdf (11 pages).
