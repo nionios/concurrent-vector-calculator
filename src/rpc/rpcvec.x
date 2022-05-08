@@ -1,14 +1,10 @@
-/* Author: Dionisis Nikolopoulos
+/* Author: Dionisis Nikolopoulos (dennis.nik@protonmail.com)
 *  Description: rpcvec.x protocol file for the vector program.
-*  Outlines the basics.
-*  License: GPLv3
-*  Date Written: April 2022
-
-struct vec {
-    double *vector_array;
-    unsigned int vector_size;
-};
-*/
+ * Student Email: ice18390126@uniwa.gr
+ * Author: Dionisis Nikolopoulos
+ * License: GPLv3
+ * Date Written: May 2022
+ */
 typedef double vec<255>;
 
 struct min_and_max {
