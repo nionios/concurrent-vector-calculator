@@ -84,7 +84,7 @@ main(int argc, char *argv[]) {
             clnt_destroy(clnt);
             exit(6);
         } else fprintf(stdout,"\n* New socket created...");
-        // Creating a new process
+        // Creating a new child process
         int pid = fork();
         if (pid < 0) {
             fprintf(stderr,"\nError: Couldn't fork new process, pid == %d",pid);
@@ -107,7 +107,6 @@ main(int argc, char *argv[]) {
                   "\n==> Received size of vector from client side, size is %d",
                   recv_size);
             }
-
             // Create a vector object and a vector pointer
             vec vector;
             // Vector p needed in some cases (case 3)
@@ -138,7 +137,7 @@ main(int argc, char *argv[]) {
             }
             while (flag) {
                 // Try to receive recv_choice number from client
-                if (recv(s_new, &recv_choice, sizeof(int)*recv_size, 0) < 0) {
+                if (recv(s_new, &recv_choice, sizeof(int), 0) < 0) {
                     fprintf(stderr,"\nError: Couldn't receive recv_choice value");
                     clnt_destroy(clnt);
                     exit(9);
@@ -152,7 +151,8 @@ main(int argc, char *argv[]) {
                     case 0:
                         //Exit the program
                         flag = 0;
-                        break;
+                        return 0;
+                    // Call RPC server in cases 1-3
                     case 1:
                         double *result_1 = average_1(&vector, clnt);
                         if (result_1 == (double *)NULL) {
@@ -160,6 +160,7 @@ main(int argc, char *argv[]) {
                             exit(5);
                         }
                         fprintf(stdout,"\n==> Average of vector is: %lf", *result_1);
+                        send(s_new,result_1,sizeof(double),0);
                         break;
                     case 2:
                         min_and_max *result_2 = minmax_1(&vector, clnt);
@@ -193,12 +194,11 @@ main(int argc, char *argv[]) {
                         for (int i=0; i<product.vec_len; i++)
                             fprintf(stdout,"\n product[%d] = %lf",
                                     i, product.vec_val[i]);
-
                         break;
                 }
             }
-        close(s_new);
         }
+        close(s_new);
     }
     clnt_destroy(clnt);
     return 0;
