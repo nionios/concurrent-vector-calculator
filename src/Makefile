@@ -2,18 +2,16 @@
 #  (For example, without the flag -I this does not compile on my Arch Linux
 #  machine.
 #
-#  TODO: Maybe remove the common folder if checkalloc is only used in client
 make_c_files:
-	cc $(CFILES_SERVER) $(CFILES_COMMON) -o $(OUTFILE_SERVER) $(CFLAGS)
-	cc $(CFILES_MIDDLEWARE) $(CFILES_COMMON) -o $(OUTFILE_MIDDLEWARE) $(CFLAGS)
-	cc $(CFILES_CLIENT) $(CFILES_COMMON) -o  $(OUTFILE_CLIENT) $(CFLAGS)
+	cc $(CFILES_SERVER) -o $(OUTFILE_SERVER) $(CFLAGS)
+	cc $(CFILES_MIDDLEWARE) -o $(OUTFILE_MIDDLEWARE) $(CFLAGS)
+	cc $(CFILES_CLIENT) -o  $(OUTFILE_CLIENT) $(CFLAGS)
 #Binary files are then moved to the bin directory
 	mv $(OUTFILES) ../bin
 
 CFILES_CLIENT=./client/tui.c ./client/prompts.c ./client/sanitary.c
-CFILES_MIDDLEWARE=./middleware/middleware.c\
+CFILES_MIDDLEWARE=./middleware/middleware.c ./middleware/checkalloc.c\
 ./rpc/rpcvec_clnt.c ./rpc/rpcvec_xdr.c
-CFILES_COMMON=./common/checkalloc.c
 CFILES_SERVER=./server/rpcvec_server.c ./rpc/rpcvec_svc.c ./rpc/rpcvec_xdr.c
 
 OUTFILES= $(OUTFILE_CLIENT) $(OUTFILE_MIDDLEWARE) $(OUTFILE_SERVER)
