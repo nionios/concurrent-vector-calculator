@@ -65,8 +65,9 @@ int main(int argc, char *argv[])
         exit(2);
     } else fprintf(stdout,"\n* Connected to server!");
 
-    // Take the basic info of the vector from the user
-    vector_info_prompt(si_other, sizeof(si_other), s);
+    // Take the basic info of the vector from the user, this sets the vector
+    // size too so we can potentially feed it into product_prompt() later on
+    int vec_size = vector_info_prompt(s);
     int choice;
     int * choicep = &choice;
 
@@ -89,13 +90,13 @@ int main(int argc, char *argv[])
                     fprintf(stdout,"--> Exiting...");
                     return 0;
                 case 1:
-                    average_prompt(choice, si_other, sizeof(si_other), s);
+                    average_prompt(s, choice);
                     break;
                 case 2:
-                    minmax_prompt(choice, si_other, sizeof(si_other), s);
+                    minmax_prompt(s, choice);
                     break;
                 case 3:
-                    product_prompt(choice, si_other, sizeof(si_other), s);
+                    product_prompt(s, choice, vec_size);
                     break;
                 default:
                     fprintf(stdout,

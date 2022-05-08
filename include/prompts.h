@@ -6,7 +6,7 @@
  */
 #include "../src/rpc/rpcvec.h"
 
-void vector_info_prompt(struct sockaddr_in si_other, int slen, int s);
-void average_prompt(int choice, struct sockaddr_in si_other, int slen, int s);
-void minmax_prompt(int choice, struct sockaddr_in si_other, int slen, int s);
-void product_prompt(int choice, struct sockaddr_in si_other, int slen, int s);
+int vector_info_prompt(int s);
+void average_prompt(int s, int choice);
+void minmax_prompt(int s, int choice);
+void product_prompt(int s, int choice, int length);

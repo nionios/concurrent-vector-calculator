@@ -17,8 +17,6 @@
 #include <checkalloc.h>
 #include "../rpc/rpcvec.h"
 
-#define BUFLEN 512  //Max length of buffer
-
 int
 main(int argc, char *argv[]) {
     struct sockaddr_in si_me, si_other;
@@ -26,7 +24,6 @@ main(int argc, char *argv[]) {
     int recv_choice, recv_size;
     double recv_val;
     char *cur;
-    char buf[BUFLEN];
 
     fprintf(stdout,"\n*** Concurrent Vector Calculator Middleware started ***");
 
@@ -91,9 +88,8 @@ main(int argc, char *argv[]) {
             // We now need to destroy the RPC client on exit too
             clnt_destroy(clnt);
             exit(7);
-        } else fprintf(stdout,"\n* New process forked...");
-
-        if (!pid) {
+        } else if (pid) fprintf(stdout,"\n* New process forked...");
+        else if (!pid) {
             //Close previous socket
             close(s);
             fprintf(stdout,"\n* Waiting for vector data...");
@@ -160,6 +156,7 @@ main(int argc, char *argv[]) {
                             exit(5);
                         }
                         fprintf(stdout,"\n==> Average of vector is: %lf", *result_1);
+                        //Send to user client
                         send(s_new,result_1,sizeof(double),0);
                         break;
                     case 2:
@@ -170,12 +167,22 @@ main(int argc, char *argv[]) {
                         } fprintf(stdout,"\n==> The minimum of the vector is: %lf"\
                                 "\n==> The maximum of the vector is: %lf",
                                 result_2->min, result_2->max);
+                        //Send to user client
+                        send(s_new,result_2,sizeof(double)*2,0);
                         break;
                     case 3:
                         // Try to receive the number that will multiply the vector
-                        double number = recvfrom(s, buf, BUFLEN, 0,
-                                (struct sockaddr *) &si_other,
-                                &slen);
+                        double number;
+                        if ( recv(s, &number, sizeof(double), 0) < 0) {
+                            fprintf(stderr,"\nError: Couldn't receive number value");
+                            clnt_destroy(clnt);
+                            exit(10);
+                        } else {
+                            fprintf(stdout,
+                                    "\n==> Received number from client side,"\
+                                    " number is %lf",
+                                    number);
+                        }
                         prod_and_num args;
                         args.number = number;
                         // Initialize the product vector with the elements of original vector
@@ -194,6 +201,7 @@ main(int argc, char *argv[]) {
                         for (int i=0; i<product.vec_len; i++)
                             fprintf(stdout,"\n product[%d] = %lf",
                                     i, product.vec_val[i]);
+                        send(s_new,&product,sizeof(product),0);
                         break;
                 }
             }
