@@ -1,8 +1,8 @@
-This is XeTeX, Version 3.141592653-2.6-0.999994 (TeX Live 2022/Arch Linux) (preloaded format=xelatex 2022.5.5)  5 MAY 2022 15:34
+This is XeTeX, Version 3.141592653-2.6-0.999994 (TeX Live 2022/Arch Linux) (preloaded format=xelatex 2022.5.5)  8 MAY 2022 16:15
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**paper.tex
+**paper.tex --shell-escape
 (./paper.tex
 LaTeX2e <2021-11-15> patch level 1
 L3 programming layer <2022-04-10>
@@ -1002,19 +1002,19 @@ LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
 (../sections/../sections/Abstract.tex) (../sections/../sections/2nd_Section.tex
-) [1
+[1
 
-] (./paper.aux)
+]) [2] (./paper.aux)
 Package rerunfilecheck Info: File `paper.out' has not changed.
-(rerunfilecheck)             Checksum: 06F363FD0B7E413543E2389F6B39FE84;196.
+(rerunfilecheck)             Checksum: 5FC01E2F7D946A68926813D75D418324;366.
  ) 
 Here is how much of TeX's memory you used:
- 29824 strings out of 476156
- 595221 string characters out of 5814964
- 970928 words of memory out of 5000000
- 50086 multiletter control sequences out of 15000+600000
- 472890 words of font info for 64 fonts, out of 8000000 for 9000
+ 29915 strings out of 476156
+ 597207 string characters out of 5814964
+ 975161 words of memory out of 5000000
+ 50179 multiletter control sequences out of 15000+600000
+ 472874 words of font info for 62 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 108i,5n,106p,414b,991s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 108i,7n,106p,429b,730s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on paper.pdf (1 page).
+Output written on paper.pdf (2 pages).
